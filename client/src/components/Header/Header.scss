@@ -1,0 +1,19 @@
+.Header {
+  max-width: 960px;
+  width: 100%;
+  margin: 0 auto;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  background-color: #fff;
+  padding: 16rem;
+
+  h1 {
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: -3rem;
+    font-size: 24rem;
+  }
+}

@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import "./Header.scss";
 
 import { subscribe } from "../../socket/subscribe";
 
@@ -16,7 +17,7 @@ const Header = () => {
   };
 
   return (
-    <header>
+    <header className="Header">
       <h1>Checkers</h1>
 
       <div className="right">
