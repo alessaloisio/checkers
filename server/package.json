@@ -1,0 +1,19 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "checkers server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "checkers",
+    "express",
+    "socket.io"
+  ],
+  "author": "Aloisio Alessandro",
+  "license": "ISC",
+  "dependencies": {
+    "socket.io": "^2.2.0"
+  }
+}
