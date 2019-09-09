@@ -18,10 +18,12 @@ const Header = () => {
 
   return (
     <header className="Header">
-      <h1>Checkers</h1>
+      <a className="title" href="/" alt="Home Cherckers">
+        Checkers
+      </a>
 
       <div className="right">
-        <input ref={usernameRef} type="text" placeholder="alessio" />
+        <input ref={usernameRef} type="text" placeholder="Nickname" />
         <button type="submit" onClick={handlerPlay}>
           Play !
         </button>

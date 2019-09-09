@@ -1,6 +1,7 @@
 .Header {
   max-width: 960px;
   width: 100%;
+  max-height: 10vh;
   margin: 0 auto;
 
   display: flex;
@@ -9,11 +10,35 @@
 
   background-color: #fff;
   padding: 16rem;
+  border-radius: 0 0 5px 5px;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.5);
 
-  h1 {
+  .title {
     text-transform: uppercase;
     font-weight: bold;
     letter-spacing: -3rem;
     font-size: 24rem;
+  }
+
+  .right {
+    input {
+      padding: 5rem;
+      border: 1px solid #dadada;
+      margin-right: 20rem;
+    }
+
+    button {
+      margin-right: 20rem;
+      font-weight: bold;
+      transition: color 0.2s linear;
+
+      &:hover {
+        color: var(--main-color);
+      }
+
+      &:focus {
+        outline: none;
+      }
+    }
   }
 }
