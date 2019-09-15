@@ -4,29 +4,33 @@ import User from "./models/Users";
 
 const io = socket();
 
-const clients = {};
-
 io.on("connection", client => {
   const player = new User();
+  client.emit("newPlayer", player.token);
   console.log(player);
-
-  // VEFIFICATION JWT
+  console.log("\n");
 
   // New connection
-  client.on("subscribe", username => {
-    console.log(`client ${username} is subsribing`);
+  client.on("playBtn", username => {
+    // Change player.name ?
+    console.log(username);
 
-    self.username = username;
+    console.log(`client ${player.name} want to play !`);
 
-    client.emit("subscribed", {
-      name: username,
-      score: 0
+    // FIRST CLIENT CREATE GAME IN A ROOM,
+    // SECOND CLIENT JOIN THE GAME
+
+    // IF ANOTHER CLIENT JOIN START THE GAME
+    // TOKENIZE ?
+    client.emit("startGame", {
+      score: 0,
+      board: {}
     });
   });
 
   // Disconnected
   client.on("disconnect", () => {
-    console.log(`Client  disconnected`);
+    console.log(`Client ${player.name}  disconnected`);
   });
 });
 

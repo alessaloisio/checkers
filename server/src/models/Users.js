@@ -14,7 +14,7 @@ class Users {
     this.name = name || this.randomName();
 
     // generate jwt
-    console.log(process.env.SECRET_KEY);
+    this.token = jwt.sign({ user: this }, process.env.SECRET_KEY);
   }
 
   randomName() {
@@ -26,6 +26,10 @@ class Users {
     });
 
     return "player" + sum;
+  }
+
+  decodeToken() {
+    return jwt.decode(this.token);
   }
 }
 
