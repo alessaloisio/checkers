@@ -1,6 +1,9 @@
 "use strict";
 
 import uuid from "uuid/v4";
+import jwt from "jsonwebtoken";
+
+import "dotenv/config";
 
 class Users {
   constructor(name) {
@@ -11,6 +14,7 @@ class Users {
     this.name = name || this.randomName();
 
     // generate jwt
+    console.log(process.env.SECRET_KEY);
   }
 
   randomName() {
