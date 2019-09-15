@@ -3,10 +3,15 @@ import socket from "socket.io";
 import Player from "./models/Player";
 
 const io = socket();
+const nsps = io.of("/");
 
 io.on("connection", client => {
   // On connection create a new Player
   const player = new Player();
+
+  // DETECT AVAILABLE ROOMS
+  console.log(nsps.adapter.rooms);
+  // console.log(Object.keys());
 
   // We notify userInfo are created to client
   client.emit("playerInfo", player.token);

@@ -1,10 +1,12 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 
 import "./Board.scss";
 
 const Board = () => {
-  const gridRef = useRef(null);
   let self = {};
+
+  const gridRef = useRef(null);
+  const [Opponent, setOpponent] = useState(false);
 
   const initGrid = grid => {
     console.log(grid);
@@ -54,8 +56,19 @@ const Board = () => {
     initGrid(gridRef);
   });
 
+  const searchOpponent = () => {
+    if (!Opponent) {
+      return (
+        <div className="search-opponent">
+          <h2>Search Opponent</h2>
+        </div>
+      );
+    }
+  };
+
   return (
     <div className="Board">
+      {searchOpponent()}
       <div className="container">
         <div ref={gridRef} className="grid"></div>
       </div>
