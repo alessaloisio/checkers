@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
-
 import "./Board.scss";
+
+import { playerJoined } from "../../socket";
 
 const Board = () => {
   let self = {};
@@ -54,6 +55,12 @@ const Board = () => {
 
   useEffect(() => {
     initGrid(gridRef);
+
+    //Detect if a oppenent joined the room
+    playerJoined((err, room) => {
+      console.log(room);
+      setOpponent(true);
+    });
   });
 
   const searchOpponent = () => {

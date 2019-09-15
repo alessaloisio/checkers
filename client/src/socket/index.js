@@ -25,4 +25,8 @@ const playBtn = cb => {
   socket.on("startGame", startGame => cb(null, startGame));
 };
 
-export { infoPlayer, changeNamePlayer, playBtn };
+const playerJoined = cb => {
+  socket.on("playerJoined", room => cb(null, room));
+};
+
+export { infoPlayer, changeNamePlayer, playBtn, playerJoined };

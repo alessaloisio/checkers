@@ -9,9 +9,24 @@ io.on("connection", client => {
   // On connection create a new Player
   const player = new Player();
 
-  // DETECT AVAILABLE ROOMS
-  console.log(nsps.adapter.rooms);
-  // console.log(Object.keys());
+  // DETECT AVAILABLE ROOMS for 2vs2
+  console.log(client.id); // current client
+  const rooms = nsps.adapter.rooms;
+  Object.keys(rooms).map(room => {
+    if (room !== client.id && rooms[room].length <= 1) {
+      // Get the available id room
+      const availableRoom = Object.keys(rooms[room].sockets)[0];
+
+      // Delete current room
+      client.leave(client.id);
+      // Join player to the available room
+      client.join(availableRoom);
+
+      // SEND TO ALL PLAYER IN THE ROOM
+      io.to(availableRoom).emit("playerJoined", client.id);
+    }
+  });
+  console.log(rooms);
 
   // We notify userInfo are created to client
   client.emit("playerInfo", player.token);
