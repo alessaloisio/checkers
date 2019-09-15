@@ -1,11 +1,22 @@
-const io = require("socket.io")();
+import socket from "socket.io";
+
+import User from "./models/Users";
+
+const io = socket();
+
+const clients = {};
 
 io.on("connection", client => {
+  const player = new User();
+  console.log(player);
+
+  // VEFIFICATION JWT
+
   // New connection
   client.on("subscribe", username => {
     console.log(`client ${username} is subsribing`);
 
-    this.username = username;
+    self.username = username;
 
     client.emit("subscribed", {
       name: username,
@@ -15,7 +26,7 @@ io.on("connection", client => {
 
   // Disconnected
   client.on("disconnect", () => {
-    console.log(`Client ${this.username} disconnected`);
+    console.log(`Client  disconnected`);
   });
 });
 

@@ -2,9 +2,12 @@
   "name": "server",
   "version": "1.0.0",
   "description": "checkers server",
-  "main": "index.js",
+  "main": "dist/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon --exec babel-node src/server.js",
+    "start": "node dist/server.js",
+    "build": "babel src -d dist"
   },
   "keywords": [
     "checkers",
@@ -14,6 +17,13 @@
   "author": "Aloisio Alessandro",
   "license": "ISC",
   "dependencies": {
-    "socket.io": "^2.2.0"
+    "socket.io": "^2.2.0",
+    "uuid": "^3.3.3"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.6.0",
+    "@babel/core": "^7.6.0",
+    "@babel/node": "^7.6.1",
+    "@babel/preset-env": "^7.6.0"
   }
 }
