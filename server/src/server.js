@@ -1,20 +1,28 @@
 import socket from "socket.io";
 
-import User from "./models/Users";
+import Player from "./models/Player";
 
 const io = socket();
 
 io.on("connection", client => {
-  const player = new User();
-  client.emit("newPlayer", player.token);
+  // On connection create a new Player
+  const player = new Player();
+
+  // We notify userInfo are created to client
+  client.emit("playerInfo", player.token);
   console.log(player);
   console.log("\n");
 
-  // New connection
-  client.on("playBtn", username => {
-    // Change player.name ?
-    console.log(username);
+  // Change Player Name
+  client.on("changeName", username => {
+    player.name = username;
+    player.encodeToken();
+    client.emit("playerInfo", player.token);
+    console.log(player);
+  });
 
+  // New connection
+  client.on("playBtn", () => {
     console.log(`client ${player.name} want to play !`);
 
     // FIRST CLIENT CREATE GAME IN A ROOM,
@@ -30,12 +38,11 @@ io.on("connection", client => {
 
   // Disconnected
   client.on("disconnect", () => {
-    console.log(`Client ${player.name}  disconnected`);
+    console.log(`Client ${player.name} disconnected`);
   });
 });
 
 // START SERVER
 const port = process.env.port || 5005;
-
 io.listen(port);
 console.log(`Socket.io listening on port ${port}`);

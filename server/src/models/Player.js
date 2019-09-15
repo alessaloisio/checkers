@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 
 import "dotenv/config";
 
-class Users {
+class Player {
   constructor(name) {
     // generate universal unique identifier
     this.uuid = uuid();
@@ -14,7 +14,8 @@ class Users {
     this.name = name || this.randomName();
 
     // generate jwt
-    this.token = jwt.sign({ user: this }, process.env.SECRET_KEY);
+    this.token = null;
+    this.encodeToken();
   }
 
   randomName() {
@@ -28,9 +29,13 @@ class Users {
     return "player" + sum;
   }
 
+  encodeToken() {
+    this.token = jwt.sign({ user: this }, process.env.SECRET_KEY);
+  }
+
   decodeToken() {
     return jwt.decode(this.token);
   }
 }
 
-export default Users;
+export default Player;

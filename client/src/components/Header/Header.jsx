@@ -1,27 +1,37 @@
 import React, { useRef, useState, useEffect } from "react";
 import "./Header.scss";
 
-import { newPlayer, playBtn } from "../../socket";
-import { resolve } from "dns";
+import { infoPlayer, changeNamePlayer, playBtn } from "../../socket";
 
 const Header = () => {
   const usernameRef = useRef(null);
   const [Username, setUsername] = useState("Nickname");
 
+  const getUserName = async () => {
+    const player = await infoPlayer();
+    setUsername(player.name);
+  };
+
+  // With REACT we can't addgetUserInfo async on useEffect
+  // Components Mounted, get default player info from server
   useEffect(() => {
-    // With REACT we can't add async on useEffect
-    (async () => {
-      const player = await newPlayer();
-      usernameRef.current.value = player.name;
-      console.log(player);
-    })();
+    getUserName();
   });
 
   const handlerPlay = () => {
-    if (usernameRef.current.value === "") usernameRef.current.focus();
-    else {
-      playBtn((err, player) => console.log(player));
+    // Change the Player Name
+    if (
+      usernameRef.current.value !== "" &&
+      usernameRef.current.value !== Username
+    ) {
+      changeNamePlayer(usernameRef.current.value);
+      usernameRef.current.value = "";
+      getUserName();
     }
+
+    playBtn((err, game) => {
+      console.log(game);
+    });
   };
 
   return (
