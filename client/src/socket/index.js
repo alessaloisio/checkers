@@ -8,12 +8,8 @@ const socket = openSocket("http://localhost:5005");
  * After generating UUID, Player Name and Token server emit "newPlayer"
  * We decode the token, to get default information
  */
-const infoPlayer = () => {
-  return new Promise(resolve => {
-    socket.on("playerInfo", token => {
-      resolve(jwt.decode(token).user);
-    });
-  });
+const getPlayerInfo = cb => {
+  socket.on("playerInfo", token => cb(null, jwt.decode(token).user));
 };
 
 const changeNamePlayer = username => {
@@ -29,4 +25,4 @@ const playerJoined = cb => {
   socket.on("playerJoined", room => cb(null, room));
 };
 
-export { infoPlayer, changeNamePlayer, playBtn, playerJoined };
+export { getPlayerInfo, changeNamePlayer, playBtn, playerJoined };

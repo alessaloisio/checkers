@@ -6,16 +6,20 @@ import jwt from "jsonwebtoken";
 import "dotenv/config";
 
 class Player {
-  constructor(name) {
+  constructor(id) {
     // generate universal unique identifier
     this.uuid = uuid();
+    this.id = id;
+    this.room = id;
 
     // random name
-    this.name = name || this.randomName();
+    this.name = this.randomName();
+
+    // (connected = 0|readyToPlay = 1|onGame = 2|..)
+    this.status = 0;
 
     // generate jwt
     this.token = null;
-    this.encodeToken();
   }
 
   randomName() {
@@ -30,7 +34,12 @@ class Player {
   }
 
   encodeToken() {
-    this.token = jwt.sign({ user: this }, process.env.SECRET_KEY);
+    const data = { ...this };
+    delete data.token;
+
+    this.token = jwt.sign({ user: data }, process.env.SECRET_KEY, {
+      expiresIn: "1h"
+    });
   }
 
   decodeToken() {

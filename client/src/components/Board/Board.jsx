@@ -1,16 +1,16 @@
 import React, { useRef, useState, useEffect } from "react";
 import "./Board.scss";
 
-import { playerJoined } from "../../socket";
+import { playerJoined, getPlayerInfo } from "../../socket";
 
 const Board = () => {
   let self = {};
 
   const gridRef = useRef(null);
   const [Opponent, setOpponent] = useState(false);
+  const [StatusPlayer, setStatusPlayer] = useState(0);
 
   const initGrid = grid => {
-    console.log(grid);
     grid = grid.current;
 
     // INIT VARS
@@ -54,17 +54,25 @@ const Board = () => {
   };
 
   useEffect(() => {
-    initGrid(gridRef);
+    // Init only once !
+    if (gridRef.current.childNodes.length === 0) initGrid(gridRef);
 
-    //Detect if a oppenent joined the room
-    playerJoined((err, room) => {
-      console.log(room);
-      setOpponent(true);
+    // Change status player
+    getPlayerInfo((err, player) => {
+      setStatusPlayer(player.status);
+      console.log(player);
+    });
+
+    // Detect if a oppenent joined the room
+    playerJoined((err, oppenent) => {
+      setOpponent(oppenent);
     });
   });
 
   const searchOpponent = () => {
-    if (!Opponent) {
+    // StatusPlayer = 1 => ready to play
+    // waiting a opponent in the room
+    if (StatusPlayer >= 1 && !Opponent) {
       return (
         <div className="search-opponent">
           <h2>Search Opponent</h2>
