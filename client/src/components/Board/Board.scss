@@ -61,4 +61,23 @@
       font-size: 20rem;
     }
   }
+
+  .players-opponent {
+    position: absolute;
+    top: -80rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-weight: bold;
+    font-size: 15rem;
+    text-transform: uppercase;
+
+    span {
+      font-size: 20rem;
+      padding: 10px;
+
+      &.active {
+        color: #100286;
+      }
+    }
+  }
 }

@@ -1,11 +1,16 @@
 import socket from "socket.io";
 
 import Player from "./models/Player";
+import Game from "./models/Game/Game";
 
 const io = socket();
 const nsps = io.of("/");
+let clients = [];
 
 io.on("connection", client => {
+  /***
+   * INIT PLAYER
+   */
   // On connection create a new Player
   const player = new Player(client.id);
 
@@ -17,6 +22,9 @@ io.on("connection", client => {
   // We notify userInfo => we are created a player to front
   player.encodeToken();
   client.emit("playerInfo", player.token);
+
+  // Add players on Clients Array
+  clients.push(player);
   console.log(player);
   console.log("\n");
 
@@ -41,6 +49,7 @@ io.on("connection", client => {
       rooms[client.id].sockets[client.id] = true;
 
       Object.keys(rooms).map(room => {
+        // We detect a room available with a opponent ready to play
         if (
           room !== player.id &&
           rooms[room].length <= 1 &&
@@ -57,10 +66,14 @@ io.on("connection", client => {
           player.room = availableRoom;
 
           // SEND TO ALL PLAYER IN THE ROOM
-          io.to(availableRoom).emit("playerJoined", {
-            id: player.id,
-            name: player.name
-          });
+          io.to(availableRoom).emit(
+            "playerJoined",
+            // Send player1 room owner and the player2
+            new Game(
+              clients.filter(client => client.id === availableRoom)[0],
+              player
+            )
+          );
         }
       });
 
@@ -73,6 +86,10 @@ io.on("connection", client => {
   // Disconnected
   client.on("disconnect", () => {
     console.log(`Client ${player.name} disconnected`);
+
+    // Remove Player from clients Array
+    clients = clients.filter(client => client.id !== player.id);
+
     // if players on room playing and one opponent leave
     // we have to notify the rival player
   });

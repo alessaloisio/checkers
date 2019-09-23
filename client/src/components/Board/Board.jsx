@@ -9,7 +9,7 @@ const Board = () => {
   const gridRef = useRef(null);
   const [Opponent, setOpponent] = useState(false);
   const [StatusPlayer, setStatusPlayer] = useState(0);
-
+  const [playerId, setPlayerId] = useState(null);
   const initGrid = grid => {
     grid = grid.current;
 
@@ -60,12 +60,14 @@ const Board = () => {
     // Change status player
     getPlayerInfo((err, player) => {
       setStatusPlayer(player.status);
+      setPlayerId(player.id);
       console.log(player);
     });
 
     // Detect if a oppenent joined the room
-    playerJoined((err, oppenent) => {
-      setOpponent(oppenent);
+    playerJoined((err, opponent) => {
+      setOpponent(opponent);
+      // console.log(opponent);
     });
   });
 
@@ -81,10 +83,30 @@ const Board = () => {
     }
   };
 
+  const opponentGUI = () => {
+    // Opponent Joined
+    if (Opponent) {
+      return (
+        <div className="players-opponent">
+          <h2>
+            <span className={Opponent.player1.id === playerId ? "active" : ""}>
+              {Opponent.player1.name}
+            </span>{" "}
+            vs
+            <span className={Opponent.player2.id === playerId ? "active" : ""}>
+              {Opponent.player2.name}
+            </span>
+          </h2>
+        </div>
+      );
+    }
+  };
+
   return (
     <div className="Board">
       {searchOpponent()}
       <div className="container">
+        {opponentGUI()}
         <div ref={gridRef} className="grid"></div>
       </div>
     </div>
