@@ -5,3 +5,7 @@ I want to use :
 * Back-End: Node.js, Socket.io
 
 
+## ADD ".env" file
+'''
+SECRET_KEY=XXXX
+'''
