@@ -13,7 +13,7 @@
     display: flex;
     flex-wrap: wrap;
 
-    background-color: #5d4022;
+    background-color: #502e0b;
     border-radius: 10rem;
     border: 40rem solid rgba(0, 0, 0, 0.2);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
@@ -22,25 +22,67 @@
       width: 100%;
       height: 100%;
 
-      background-color: #e2ded2;
+      background-color: #d6cfbc;
 
-      &:before {
-        content: "";
-        position: absolute;
-        box-shadow: 0 0 15px #000 inset;
-        width: 100%;
-        height: 100%;
-        left: 0;
-        z-index: 1;
-        top: 0;
-      }
+      // Problème: on ne peut pas séléctionner une case :/
+      // &::after {
+      //   content: "";
+      //   position: absolute;
+      //   box-shadow: 0 0 15px #000 inset;
+      //   width: 100%;
+      //   height: 100%;
+      //   left: 0;
+      //   z-index: 1;
+      //   top: 0;
+      // }
 
       .case {
         background-color: #5d4022;
         width: 60px;
         height: 60px;
-        display: block;
         position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+
+        &.active {
+          border: 3px solid #93ddfd;
+        }
+
+        .black,
+        .white {
+          position: relative;
+          width: 85%;
+          height: 85%;
+          border-radius: 100%;
+          display: block;
+
+          &::after {
+            content: "";
+            position: absolute;
+            border-radius: 100%;
+            width: 90%;
+            height: 90%;
+            left: 50%;
+            z-index: 1;
+            top: 50%;
+            transform: translate(-50%, -50%);
+          }
+        }
+
+        .black {
+          background-color: #000;
+          &::after {
+            box-shadow: 0 0 4px #cacaca inset;
+          }
+        }
+        .white {
+          background-color: #fff;
+          &::after {
+            box-shadow: 0 0 4px #2b2b2b inset;
+          }
+        }
       }
     }
   }
@@ -71,7 +113,15 @@
     font-size: 15rem;
     text-transform: uppercase;
 
-    span {
+    .round {
+      background-color: yellow;
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 100%;
+    }
+
+    .player {
       font-size: 20rem;
       padding: 10px;
 

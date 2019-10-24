@@ -25,4 +25,19 @@ const playerJoined = cb => {
   socket.on("playerJoined", room => cb(null, room));
 };
 
-export { getPlayerInfo, changeNamePlayer, playBtn, playerJoined };
+const sendSelectedBox = id => {
+  socket.emit("selectedBox", id);
+};
+
+const getVerfificationSelectedBox = cb => {
+  socket.on("returnVerificationSelectedBox", value => cb(null, value));
+};
+
+export {
+  getPlayerInfo,
+  changeNamePlayer,
+  playBtn,
+  playerJoined,
+  sendSelectedBox,
+  getVerfificationSelectedBox
+};

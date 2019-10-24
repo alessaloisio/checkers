@@ -18,6 +18,8 @@ class Player {
     // (connected = 0|readyToPlay = 1|onGame = 2|..)
     this.status = 0;
 
+    this.boardPawnsId = 0;
+
     // generate jwt
     this.token = null;
   }

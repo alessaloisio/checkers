@@ -6,9 +6,9 @@ import Grid from "./Grid";
 import "./Board.scss";
 
 const Board = () => {
-  const [Opponent, setOpponent] = useState(false);
+  const [Game, setGame] = useState(false);
   const [StatusPlayer, setStatusPlayer] = useState(0);
-  const [playerId, setPlayerId] = useState(null);
+  const [PlayerId, setPlayerId] = useState(null);
 
   useEffect(() => {
     // Change status player
@@ -18,15 +18,15 @@ const Board = () => {
     });
 
     // Detect if a oppenent joined the room
-    playerJoined((err, opponent) => {
-      setOpponent(opponent);
+    playerJoined((err, game) => {
+      setGame(game);
     });
-  }, [Opponent, StatusPlayer, playerId]);
+  }, []);
 
   const searchOpponent = () => {
     // StatusPlayer = 1 => ready to play
     // waiting a opponent in the room
-    if (StatusPlayer >= 1 && !Opponent) {
+    if (StatusPlayer >= 1 && !Game) {
       return (
         <div className="search-opponent">
           <h2>Search Opponent</h2>
@@ -37,17 +37,35 @@ const Board = () => {
 
   const opponentGUI = () => {
     // Opponent Joined
-    if (Opponent) {
+    if (Game) {
       // Show opponents name
       return (
         <div className="players-opponent">
           <h2>
-            <span className={Opponent.player1.id === playerId ? "active" : ""}>
-              {Opponent.player1.name}
-            </span>{" "}
+            {Game.players[0].id === Game.hand ? (
+              <span className="round"></span>
+            ) : (
+              ""
+            )}
+            <span
+              className={
+                Game.players[0].id === PlayerId ? "active player" : "player"
+              }
+            >
+              {Game.players[0].name}
+            </span>
             vs
-            <span className={Opponent.player2.id === playerId ? "active" : ""}>
-              {Opponent.player2.name}
+            {Game.players[1].id === Game.hand ? (
+              <span className="round"></span>
+            ) : (
+              ""
+            )}
+            <span
+              className={
+                Game.players[1].id === PlayerId ? "active player" : "player"
+              }
+            >
+              {Game.players[1].name}
             </span>
           </h2>
         </div>
@@ -55,12 +73,16 @@ const Board = () => {
     }
   };
 
+  const importGrid = () => {
+    if (PlayerId) return <Grid game={Game} playerId={PlayerId} />;
+  };
+
   return (
     <div className="Board">
       {searchOpponent()}
       <div className="container">
         {opponentGUI()}
-        <Grid ready={Opponent} />
+        {importGrid()}
       </div>
     </div>
   );

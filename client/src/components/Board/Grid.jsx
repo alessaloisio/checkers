@@ -1,14 +1,42 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+
+import { sendSelectedBox, getVerfificationSelectedBox } from "../../socket";
 
 // Grid init
 const Grid = props => {
   const gridRef = useRef(null);
+  const Game = props.game;
+
+  // tourPlayer => qui joue, celui qui à la main
+  // firstSelectedBox => une case avec un pion
+  // secondSelectedBox => une case vide
+  const [SelectedBoxes, setSelectedBoxes] = useState([]);
+
+  const handleBox = (e, id) => {
+    if (Game) {
+      // await player hand verification
+      if (SelectedBoxes.length < 2) {
+        // await selection verification
+        sendSelectedBox(id);
+        // console.log(SelectedBoxes);
+      } else {
+        // await move verification
+      }
+    }
+  };
 
   const createBoxes = () => {
     let boxes = [];
 
     for (let i = 1; i < 51; i++) {
-      boxes.push(<span key={i} id={i} className="case"></span>);
+      boxes.push(
+        <span
+          key={i}
+          id={i}
+          className="case"
+          onClick={e => handleBox(e, i)}
+        ></span>
+      );
     }
 
     return boxes;
@@ -50,10 +78,62 @@ const Grid = props => {
     }
   };
 
-  // On ready
+  // when opponents ready
   useEffect(() => {
-    if (props.ready) console.log("ready ????");
-  }, [props.ready]);
+    if (Game) {
+      const updateGrid = () => {
+        const boxes = Array.from(gridRef.current.childNodes);
+
+        let boardPawnsId = Game.players.filter(
+          player => player.id === props.playerId
+        )[0].boardPawnsId;
+
+        let iterator = boardPawnsId === 1 ? 49 : 0;
+
+        for (let i = 0; i < boxes.length; i++) {
+          const box = boxes[i];
+          const pawns = document.createElement("span");
+
+          // RESET BOX
+          box.innerHTML = "";
+
+          switch (Game.board[iterator]) {
+            case 1:
+              pawns.classList.add("black");
+              break;
+            case 2:
+              pawns.classList.add("white");
+              break;
+            default:
+          }
+
+          if (Game.board[iterator] > 0) box.appendChild(pawns);
+
+          if (boardPawnsId > 1) iterator++;
+          else iterator--;
+        }
+      };
+
+      // common grid between opponents
+      updateGrid();
+    }
+  }, [Game, props.playerId]);
+
+  // Get return verification selectedBox
+  useEffect(() => {
+    getVerfificationSelectedBox((err, value) => {
+      console.log(value);
+      if (value.verification) {
+        const gridBox = Array.from(gridRef.current.childNodes);
+        if (props.playerId === value.playerId) {
+          // hand player
+          gridBox[value.boxSelected - 1].classList.toggle("active");
+        } else {
+          gridBox[50 - value.boxSelected].classList.toggle("active");
+        }
+      }
+    });
+  }, [props.playerId]);
 
   return (
     <div ref={gridRef} className="grid">
