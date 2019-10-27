@@ -1,6 +1,6 @@
 "use strict";
 
-import Board from "./Board";
+import Board from "./Game/Board";
 
 class Game {
   constructor(player1, player2) {

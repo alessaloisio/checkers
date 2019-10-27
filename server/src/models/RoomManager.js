@@ -1,9 +1,10 @@
 "use strict";
 
-import Game from "./Game/Game";
+import Game from "./Game";
 
 const Room = props => {
-  const { io, client, players, games, player } = props;
+  const { io, client, games } = props.self;
+  const { players, player } = props;
   // FIRST CLIENT CREATE GAME IN A ROOM,
   // SECOND CLIENT JOIN THE GAME
   // DETECT AVAILABLE ROOMS for 2vs2
@@ -35,7 +36,7 @@ const Room = props => {
         );
 
         // SEND TO ALL PLAYER IN THE ROOM
-        io.to(availableRoom).emit(
+        io.to(game.room).emit(
           "playerJoined",
           // Send player1 room owner and the player2
           game
@@ -50,6 +51,8 @@ const Room = props => {
       }
     });
   }
+
+  return;
 };
 
 export default Room;
