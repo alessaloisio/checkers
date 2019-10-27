@@ -33,11 +33,16 @@ const getVerfificationSelectedBox = cb => {
   socket.on("returnVerificationSelectedBox", value => cb(null, value));
 };
 
+const moveSelectedBox = cb => {
+  socket.on("moveBox", move => cb(null, move));
+};
+
 export {
   getPlayerInfo,
   changeNamePlayer,
   playBtn,
   playerJoined,
   sendSelectedBox,
-  getVerfificationSelectedBox
+  getVerfificationSelectedBox,
+  moveSelectedBox
 };

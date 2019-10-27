@@ -1,24 +1,32 @@
 class SelectedHistory {
   constructor() {
-    this.listBox = [];
+    this._listBox = [];
+  }
+
+  get list() {
+    return this._listBox;
   }
 
   add(box) {
-    this.listBox.push(box);
+    this._listBox.push(box);
   }
 
-  remove(idBox) {
-    this.listBox = this.listBox.filter(box => box.boxSelected !== idBox);
+  remove(boxId) {
+    this._listBox = this._listBox.filter(box => box.boxId !== boxId);
     // emit to clients
   }
 
-  exist(idBox) {
-    const value = this.listBox.filter(box => box.boxSelected === idBox);
+  exist(boxId) {
+    const value = this._listBox.filter(box => box.boxId === boxId);
     return value.length > 0;
   }
 
   clean() {
-    this.listBox = [];
+    this._listBox = [];
+  }
+
+  length() {
+    return this._listBox.length;
   }
 }
 

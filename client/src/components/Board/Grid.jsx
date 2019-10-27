@@ -1,6 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 
-import { sendSelectedBox, getVerfificationSelectedBox } from "../../socket";
+import {
+  sendSelectedBox,
+  getVerfificationSelectedBox,
+  moveSelectedBox
+} from "../../socket";
 
 // Grid init
 const Grid = props => {
@@ -97,7 +101,7 @@ const Grid = props => {
           // RESET BOX
           box.innerHTML = "";
 
-          switch (Game.board[iterator]) {
+          switch (Game.board.grid[iterator]) {
             case 1:
               pawns.classList.add("black");
               break;
@@ -107,7 +111,7 @@ const Grid = props => {
             default:
           }
 
-          if (Game.board[iterator] > 0) box.appendChild(pawns);
+          if (Game.board.grid[iterator] > 0) box.appendChild(pawns);
 
           if (boardPawnsId > 1) iterator++;
           else iterator--;
@@ -127,13 +131,20 @@ const Grid = props => {
         const gridBox = Array.from(gridRef.current.childNodes);
         if (props.playerId === value.playerId) {
           // hand player
-          gridBox[value.boxSelected - 1].classList.toggle("active");
+          gridBox[50 - value.boxId].classList.toggle("active");
         } else {
-          gridBox[50 - value.boxSelected].classList.toggle("active");
+          gridBox[value.boxId - 1].classList.toggle("active");
         }
       }
     });
-  }, [props.playerId]);
+  });
+
+  // Get move box
+  useEffect(() => {
+    moveSelectedBox((err, value) => {
+      console.log(value);
+    });
+  });
 
   return (
     <div ref={gridRef} className="grid">
