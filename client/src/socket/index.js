@@ -33,8 +33,8 @@ const getVerfificationSelectedBox = cb => {
   socket.on("returnVerificationSelectedBox", value => cb(null, value));
 };
 
-const moveSelectedBox = cb => {
-  socket.on("moveBox", move => cb(null, move));
+const getGameUpdate = cb => {
+  socket.on("updateGame", game => cb(null, game));
 };
 
 export {
@@ -44,5 +44,5 @@ export {
   playerJoined,
   sendSelectedBox,
   getVerfificationSelectedBox,
-  moveSelectedBox
+  getGameUpdate
 };

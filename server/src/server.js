@@ -65,7 +65,7 @@ io.on("connection", client => {
     console.log(`Client ${player.name} disconnected`);
 
     // Remove Player from players Array
-    players = players.filter(client => client.id !== player.id);
+    players = players.filter(player => player.id !== client.id);
 
     // if players on room playing and one opponent leave
     // we have to notify the rival player

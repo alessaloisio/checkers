@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { playerJoined, getPlayerInfo } from "../../socket";
+import { playerJoined, getPlayerInfo, getGameUpdate } from "../../socket";
 import Grid from "./Grid";
 
 import "./Board.scss";
@@ -22,6 +22,13 @@ const Board = () => {
       setGame(game);
     });
   }, []);
+
+  // UPDATE GAME
+  useEffect(() => {
+    getGameUpdate((err, game) => {
+      setGame(game);
+    });
+  }, [Game]);
 
   const searchOpponent = () => {
     // StatusPlayer = 1 => ready to play

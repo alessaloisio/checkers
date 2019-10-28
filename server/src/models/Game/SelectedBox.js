@@ -1,21 +1,16 @@
-let _player = new WeakMap();
-let _game = new WeakMap();
+"use strict";
 
 class SelectedBox {
-  constructor(params) {
-    _player.set(this, params[1]);
-    _game.set(this, params[2]);
+  constructor(props) {
+    const { boxId, player, game } = props;
 
-    this.playerId = _player.get(this).id;
-    this.boxId = params[0];
-    this.verification = this.playerVerification();
-    this.typePawns = this.initTypePawns();
+    this.playerId = player.id;
+    this.boxId = boxId;
+    this.verification = this.playerVerification(player, game);
+    this.typePawns = this.initTypePawns(game);
   }
 
-  playerVerification() {
-    const game = _game.get(this);
-    const player = _player.get(this);
-
+  playerVerification(player, game) {
     if (player.boardPawnsId < 2) this.boxId = 51 - this.boxId;
 
     let value = false;
@@ -31,12 +26,11 @@ class SelectedBox {
     return value;
   }
 
-  initTypePawns() {
-    const game = _game.get(this);
+  initTypePawns(game) {
     let value;
 
     // "normal" or "queen" or "empty"
-    switch (game.board.grid[this.boxId]) {
+    switch (game.board.grid[this.boxId - 1]) {
       case 0:
         value = "empty";
         break;

@@ -35,6 +35,17 @@ class Board {
     // verification with the second player selection
     if (diagonalId.includes(to.boxId)) {
       console.log("can move");
+      console.log(this.grid[from.boxId]);
+      console.log(this.grid[to.boxId]);
+
+      // SWAP destructuring
+      [this.grid[from.boxId - 1], this.grid[to.boxId - 1]] = [
+        this.grid[to.boxId - 1],
+        this.grid[from.boxId - 1]
+      ];
+
+      // CLEAN
+      this.history.clean();
     }
   }
 

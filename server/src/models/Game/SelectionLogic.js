@@ -7,14 +7,12 @@ const Logic = props => {
   const { boxId } = props;
 
   let player = null;
-
-  // get the game of the client
   const game = games.filter(game => {
     player = game.players.filter(player => player.id === client.id)[0];
     return player;
   })[0];
 
-  const selectedBox = new SelectedBox([boxId, player, game]);
+  const selectedBox = new SelectedBox({ boxId, player, game });
   console.log(selectedBox);
 
   let emit = false;
@@ -26,10 +24,17 @@ const Logic = props => {
         if (selectedBox.typePawns === "empty") {
           // determine the best move
 
+          // Remove active box selection
+          io.to(game.room).emit(
+            "returnVerificationSelectedBox",
+            game.board.history.list[0]
+          );
+
           game.board.moveBoxes(selectedBox);
 
-          // send game
-          // io.to(game.room).emit("updateGame", game);
+          // Switch player
+
+          io.to(game.room).emit("updateGame", game);
         }
       } else if (selectedBox.typePawns !== "empty") {
         game.board.history.add(selectedBox);

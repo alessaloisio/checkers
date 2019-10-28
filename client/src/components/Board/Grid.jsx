@@ -1,31 +1,15 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 
-import {
-  sendSelectedBox,
-  getVerfificationSelectedBox,
-  moveSelectedBox
-} from "../../socket";
+import { sendSelectedBox, getVerfificationSelectedBox } from "../../socket";
 
 // Grid init
 const Grid = props => {
   const gridRef = useRef(null);
   const Game = props.game;
 
-  // tourPlayer => qui joue, celui qui à la main
-  // firstSelectedBox => une case avec un pion
-  // secondSelectedBox => une case vide
-  const [SelectedBoxes, setSelectedBoxes] = useState([]);
-
   const handleBox = (e, id) => {
     if (Game) {
-      // await player hand verification
-      if (SelectedBoxes.length < 2) {
-        // await selection verification
-        sendSelectedBox(id);
-        // console.log(SelectedBoxes);
-      } else {
-        // await move verification
-      }
+      sendSelectedBox(id);
     }
   };
 
@@ -46,17 +30,11 @@ const Grid = props => {
     return boxes;
   };
 
-  // 1st mounted
-  useEffect(() => {
-    initGrid();
-  }, []);
-
   const initGrid = () => {
     const grid = gridRef.current;
 
     // INIT VARS
     const gridWidth = grid.clientWidth,
-      // gridHeight = grid.clientHeight,
       gridCaseDim = gridWidth / 10,
       boxes = Array.from(grid.childNodes);
 
@@ -82,7 +60,12 @@ const Grid = props => {
     }
   };
 
-  // when opponents ready
+  // 1st mount
+  useEffect(() => {
+    initGrid();
+  }, []);
+
+  // Update Grid
   useEffect(() => {
     if (Game) {
       const updateGrid = () => {
@@ -123,10 +106,9 @@ const Grid = props => {
     }
   }, [Game, props.playerId]);
 
-  // Get return verification selectedBox
+  // On selectedBox
   useEffect(() => {
     getVerfificationSelectedBox((err, value) => {
-      console.log(value);
       if (value.verification) {
         const gridBox = Array.from(gridRef.current.childNodes);
         if (props.playerId === value.playerId) {
@@ -137,14 +119,7 @@ const Grid = props => {
         }
       }
     });
-  });
-
-  // Get move box
-  useEffect(() => {
-    moveSelectedBox((err, value) => {
-      console.log(value);
-    });
-  });
+  }, []);
 
   return (
     <div ref={gridRef} className="grid">
