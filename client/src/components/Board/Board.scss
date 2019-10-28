@@ -24,18 +24,6 @@
 
       background-color: #d6cfbc;
 
-      // Problème: on ne peut pas séléctionner une case :/
-      // &::after {
-      //   content: "";
-      //   position: absolute;
-      //   box-shadow: 0 0 15px #000 inset;
-      //   width: 100%;
-      //   height: 100%;
-      //   left: 0;
-      //   z-index: 1;
-      //   top: 0;
-      // }
-
       .case {
         background-color: #5d4022;
         width: 60px;
@@ -106,12 +94,18 @@
 
   .players-opponent {
     position: absolute;
-    top: -80rem;
+    top: -100rem;
     left: 50%;
     transform: translateX(-50%);
     font-weight: bold;
     font-size: 15rem;
     text-transform: uppercase;
+
+    h2 {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
     .round {
       background-color: yellow;
@@ -119,6 +113,8 @@
       width: 10px;
       height: 10px;
       border-radius: 100%;
+      padding: 7px;
+      margin-left: 10px;
     }
 
     .player {

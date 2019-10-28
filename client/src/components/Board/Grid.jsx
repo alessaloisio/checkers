@@ -111,15 +111,15 @@ const Grid = props => {
     getVerfificationSelectedBox((err, value) => {
       if (value.verification) {
         const gridBox = Array.from(gridRef.current.childNodes);
-        if (props.playerId === value.playerId) {
-          // hand player
+
+        if (value.typePawnsId === 2) gridBox.reverse();
+
+        if (props.playerId === value.playerId)
           gridBox[50 - value.boxId].classList.toggle("active");
-        } else {
-          gridBox[value.boxId - 1].classList.toggle("active");
-        }
+        else gridBox[value.boxId - 1].classList.toggle("active");
       }
     });
-  }, []);
+  }, [props.playerId]);
 
   return (
     <div ref={gridRef} className="grid">

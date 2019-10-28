@@ -33,6 +33,7 @@ const Logic = props => {
           game.board.moveBoxes(selectedBox);
 
           // Switch player
+          game.hand = game.players.filter(p => p.id !== player.id)[0].id;
 
           io.to(game.room).emit("updateGame", game);
         }

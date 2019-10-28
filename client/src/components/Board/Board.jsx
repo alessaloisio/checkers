@@ -21,7 +21,7 @@ const Board = () => {
     playerJoined((err, game) => {
       setGame(game);
     });
-  }, []);
+  }, [Game, StatusPlayer, PlayerId]);
 
   // UPDATE GAME
   useEffect(() => {

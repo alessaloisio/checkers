@@ -8,6 +8,7 @@ class SelectedBox {
     this.boxId = boxId;
     this.verification = this.playerVerification(player, game);
     this.typePawns = this.initTypePawns(game);
+    this.typePawnsId = game.board.grid[this.boxId - 1];
   }
 
   playerVerification(player, game) {

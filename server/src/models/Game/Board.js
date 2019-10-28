@@ -32,12 +32,8 @@ class Board {
     const diagonalId = this.getDiagonalBox(from.boxId);
     console.log(diagonalId);
 
-    // verification with the second player selection
+    // simple move
     if (diagonalId.includes(to.boxId)) {
-      console.log("can move");
-      console.log(this.grid[from.boxId]);
-      console.log(this.grid[to.boxId]);
-
       // SWAP destructuring
       [this.grid[from.boxId - 1], this.grid[to.boxId - 1]] = [
         this.grid[to.boxId - 1],
@@ -47,6 +43,8 @@ class Board {
       // CLEAN
       this.history.clean();
     }
+
+    // else if win a pawns
   }
 
   getDiagonalBox(id) {
