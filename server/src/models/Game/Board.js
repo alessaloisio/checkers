@@ -26,9 +26,6 @@ class Board {
     // show available diagonal
     const from = this.history.list[0];
 
-    console.log(from.boxId, this.grid[from.boxId - 1]);
-    console.log(to.boxId, this.grid[to.boxId - 1]);
-
     const diagonalId = this.getDiagonalBox(from.boxId);
     console.log(diagonalId);
 
@@ -42,6 +39,8 @@ class Board {
 
       // CLEAN
       this.history.clean();
+    } else if (to.typePanws === "empty") {
+      console.log("maybe win ?");
     }
 
     // else if win a pawns

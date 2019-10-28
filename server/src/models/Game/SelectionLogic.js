@@ -23,7 +23,7 @@ const Logic = props => {
       if (game.board.history.length() > 0) {
         if (selectedBox.typePawns === "empty") {
           // determine the best move
-
+          console.log("test move");
           // Remove active box selection
           io.to(game.room).emit(
             "returnVerificationSelectedBox",

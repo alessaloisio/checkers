@@ -16,9 +16,10 @@ class SelectedBox {
 
     let value = false;
     if (this.playerId === game.hand) {
+      console.log(game.board.grid[this.boxId]);
       if (
-        game.board.grid[this.boxId] === player.boardPawnsId ||
-        game.board.grid[this.boxId] === 0
+        game.board.grid[this.boxId - 1] === 0 ||
+        game.board.grid[this.boxId - 1] === player.boardPawnsId
       ) {
         value = true;
       }
