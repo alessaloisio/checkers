@@ -23,19 +23,23 @@ const Logic = props => {
       if (game.board.history.length() > 0) {
         if (selectedBox.typePawns === "empty") {
           // determine the best move
-          console.log("test move");
-          // Remove active box selection
-          io.to(game.room).emit(
-            "returnVerificationSelectedBox",
-            game.board.history.list[0]
-          );
+          const move = game.board.moveBoxes(selectedBox);
 
-          game.board.moveBoxes(selectedBox);
+          if (move) {
+            // Remove active box selection
+            io.to(game.room).emit(
+              "returnVerificationSelectedBox",
+              game.board.history.list[0]
+            );
 
-          // Switch player
-          game.hand = game.players.filter(p => p.id !== player.id)[0].id;
+            // CLEAN
+            game.board.history.clean();
 
-          io.to(game.room).emit("updateGame", game);
+            // Switch player
+            game.hand = game.players.filter(p => p.id !== player.id)[0].id;
+
+            io.to(game.room).emit("updateGame", game);
+          }
         }
       } else if (selectedBox.typePawns !== "empty") {
         game.board.history.add(selectedBox);

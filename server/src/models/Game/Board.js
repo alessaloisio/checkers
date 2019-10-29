@@ -23,28 +23,56 @@ class Board {
   }
 
   moveBoxes(to) {
-    // show available diagonal
+    let validateMove = false;
+
     const from = this.history.list[0];
-
+    // show available diagonal
     const diagonalId = this.getDiagonalBox(from.boxId);
-    console.log(diagonalId);
 
-    // simple move
+    // Warning for a normal pawns
     if (diagonalId.includes(to.boxId)) {
+      /**
+       * Simple move
+       */
       // SWAP destructuring
       [this.grid[from.boxId - 1], this.grid[to.boxId - 1]] = [
         this.grid[to.boxId - 1],
         this.grid[from.boxId - 1]
       ];
 
-      // CLEAN
-      this.history.clean();
-    } else if (to.typePanws === "empty") {
-      console.log("maybe win ?");
+      validateMove = true;
+    } else {
+      /**
+       * Maybe win a pawns
+       */
+      diagonalId.map(diagonal => {
+        // need verification => performance
+        if (
+          (from.typePawnsId === 2 && this.grid[diagonal - 1] === 1) ||
+          (from.typePawnsId === 1 && this.grid[diagonal - 1] === 2)
+        ) {
+          const diaSecondId = this.getDiagonalBox(diagonal);
+
+          if (diaSecondId.includes(to.boxId)) {
+            // swap and remove
+            this.grid[diagonal - 1] = 0;
+
+            [this.grid[from.boxId - 1], this.grid[to.boxId - 1]] = [
+              this.grid[to.boxId - 1],
+              this.grid[from.boxId - 1]
+            ];
+
+            validateMove = true;
+            return;
+          }
+        }
+      });
     }
 
-    // else if win a pawns
+    return validateMove;
   }
+
+  recursiveDiagonal() {}
 
   getDiagonalBox(id) {
     let availableSelection = [];
