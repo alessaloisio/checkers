@@ -41,13 +41,32 @@ class Board {
 
         validateMove = true;
       } else {
-        /**
-         * Maybe win a pawns
-         */
-        console.log("maybe win a pawns");
+        // Maybe Win Process
         const winMove = this.recursiveDiagonal(from.boxId, 2);
 
-        console.log(winMove);
+        for (const axe in winMove) {
+          if (winMove.hasOwnProperty(axe)) {
+            const arr = winMove[axe];
+
+            if (
+              arr.length > 1 &&
+              arr[1] === to.boxId &&
+              (this.grid[arr[0] - 1] > 0 &&
+                this.grid[arr[0] - 1] !== from.typePawnsId)
+            ) {
+              // You WIN
+              this.grid[arr[0] - 1] = 0;
+
+              [this.grid[from.boxId - 1], this.grid[to.boxId - 1]] = [
+                this.grid[to.boxId - 1],
+                this.grid[from.boxId - 1]
+              ];
+
+              validateMove = true;
+              break;
+            }
+          }
+        }
       }
     } else if (from.typePawns === "queen") {
       console.log("move queen");
