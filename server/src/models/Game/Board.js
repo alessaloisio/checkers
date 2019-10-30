@@ -26,11 +26,15 @@ class Board {
     let validateMove = false;
 
     const from = this.history.list[0];
-    // show available diagonal
-    const diagonalId = this.getDiagonalBox(from.boxId);
 
-    // Warning for a normal pawns
+    // show available diagonal
+    let diagonalId = this.recursiveDiagonal(from.boxId, 2);
+
+    console.log(diagonalId);
+    console.log([].concat(...Object.values(diagonalId)));
+
     // if (Object.values(diagonalId).includes(to.boxId)) {
+    //   console.log("simple move");
     //   /**
     //    * Simple move
     //    */
@@ -78,28 +82,34 @@ class Board {
     return validateMove;
   }
 
-  recursiveDiagonal(id, currentAxe = null) {
+  recursiveDiagonal(id, limit = null, currentAxe = null) {
     let availableSelection = { ...this.getDiagonalBox(id) };
+    // To show one value limit have to be 0
+    if (limit) limit--;
 
-    // Stop Recursive
-    if (currentAxe && !availableSelection[currentAxe].length) return {};
+    if (limit > 0 || limit === null) {
+      // Stop Recursive
+      if (currentAxe && !availableSelection[currentAxe].length) return {};
 
-    // EVERY AXES (TL,TR, BL, BR)
-    for (const axe in availableSelection) {
-      if (availableSelection.hasOwnProperty(axe)) {
-        const axeDiagonalId = availableSelection[axe];
+      // EVERY AXES (TL,TR, BL, BR)
+      for (const axe in availableSelection) {
+        if (availableSelection.hasOwnProperty(axe)) {
+          const axeDiagonalId = availableSelection[axe];
 
-        if (axeDiagonalId.length) {
-          if (!currentAxe || axe === currentAxe) {
-            const addDiagonal = this.recursiveDiagonal(axeDiagonalId[0], axe)[
-              axe
-            ];
+          if (axeDiagonalId.length) {
+            if (!currentAxe || axe === currentAxe) {
+              const addDiagonal = this.recursiveDiagonal(
+                axeDiagonalId[0],
+                --limit,
+                axe
+              )[axe];
 
-            if (typeof addDiagonal !== "undefined")
-              availableSelection[axe] = [
-                ...availableSelection[axe],
-                ...addDiagonal
-              ];
+              if (typeof addDiagonal !== "undefined")
+                availableSelection[axe] = [
+                  ...availableSelection[axe],
+                  ...addDiagonal
+                ];
+            }
           }
         }
       }

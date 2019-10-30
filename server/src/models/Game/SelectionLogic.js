@@ -32,22 +32,7 @@ const Logic = props => {
 
             // Before switch verify
             let switchHand = true;
-
-            game.board.getDiagonalBox(selectedBox.boxId).map(diagonal => {
-              // if (
-              //   (selectedBox.typePawnsId === 2 &&
-              //     game.board.grid[diagonal - 1] === 1) ||
-              //   (selectedBox.typePawnsId === 1 &&
-              //     game.board.grid[diagonal - 1] === 2)
-              // ) {
-              //   switchHand = false;
-              //   return;
-              // }
-              console.log(diagonal);
-              console.log(game.board.grid[selectedBox.boxId - 1]);
-              console.log(game.board.grid[diagonal - 1]);
-            });
-
+            //
             if (switchHand)
               game.hand = game.players.filter(p => p.id !== player.id)[0].id;
 
