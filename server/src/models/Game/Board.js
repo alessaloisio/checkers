@@ -54,7 +54,7 @@ class Board {
               (this.grid[arr[0] - 1] > 0 &&
                 this.grid[arr[0] - 1] !== from.typePawnsId)
             ) {
-              // You WIN
+              // You WIN a pawns
               this.grid[arr[0] - 1] = 0;
 
               [this.grid[from.boxId - 1], this.grid[to.boxId - 1]] = [
@@ -140,6 +140,8 @@ class Board {
 
     return availableSelection;
   }
+
+  verifySwitchHand() {}
 }
 
 export default Board;

@@ -6,14 +6,10 @@ const Logic = props => {
   const { io, client, games } = props.self;
   const { boxId } = props;
 
-  let player = null;
-  const game = games.filter(game => {
-    player = game.players.filter(player => player.id === client.id)[0];
-    return player;
-  })[0];
+  const [player, game] = getPlayerGame(games, client.id);
 
   const selectedBox = new SelectedBox({ boxId, player, game });
-  console.log(selectedBox);
+  // console.log(selectedBox);
 
   let emit = false;
 
@@ -53,6 +49,20 @@ const Logic = props => {
   }
 
   if (emit) io.to(game.room).emit("returnVerificationSelectedBox", selectedBox);
+};
+
+const getPlayerGame = (games, clientId) => {
+  for (const key in games) {
+    if (games.hasOwnProperty(key)) {
+      const game = games[key];
+      for (const kPLayer in game.players) {
+        if (game.players.hasOwnProperty(kPLayer)) {
+          const player = game.players[kPLayer];
+          if (player.id === clientId) return [player, game];
+        }
+      }
+    }
+  }
 };
 
 export default Logic;
