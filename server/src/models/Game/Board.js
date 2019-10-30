@@ -27,57 +27,31 @@ class Board {
 
     const from = this.history.list[0];
 
-    // show available diagonal
-    let diagonalId = this.recursiveDiagonal(from.boxId, 2);
+    if (from.typePawns === "normal") {
+      const simpleMove = [].concat(
+        ...Object.values(this.recursiveDiagonal(from.boxId, 1))
+      );
 
-    console.log(diagonalId);
-    console.log([].concat(...Object.values(diagonalId)));
+      if (simpleMove.includes(to.boxId)) {
+        // SWAP destructuring
+        [this.grid[from.boxId - 1], this.grid[to.boxId - 1]] = [
+          this.grid[to.boxId - 1],
+          this.grid[from.boxId - 1]
+        ];
 
-    // if (Object.values(diagonalId).includes(to.boxId)) {
-    //   console.log("simple move");
-    //   /**
-    //    * Simple move
-    //    */
-    //   // SWAP destructuring
-    //   [this.grid[from.boxId - 1], this.grid[to.boxId - 1]] = [
-    //     this.grid[to.boxId - 1],
-    //     this.grid[from.boxId - 1]
-    //   ];
+        validateMove = true;
+      } else {
+        /**
+         * Maybe win a pawns
+         */
+        console.log("maybe win a pawns");
+        const winMove = this.recursiveDiagonal(from.boxId, 2);
 
-    //   validateMove = true;
-    // } else {
-    //   /**
-    //    * Maybe win a pawns
-    //    */
-    //   for (const axe in diagonalId) {
-    //     if (diagonalId.hasOwnProperty(axe)) {
-    //       diagonalId[axe].map(diagonal => {
-    //         // need verification => performance
-    //         if (
-    //           (from.typePawnsId === 2 && this.grid[diagonal - 1] === 1) ||
-    //           (from.typePawnsId === 1 && this.grid[diagonal - 1] === 2)
-    //         ) {
-    //           const diaSecondId = this.getDiagonalBox(diagonal);
-
-    //           if (Object.values(diaSecondId).includes(to.boxId)) {
-    //             // BUG : verify if continously
-
-    //             // swap and remove
-    //             this.grid[diagonal - 1] = 0;
-
-    //             [this.grid[from.boxId - 1], this.grid[to.boxId - 1]] = [
-    //               this.grid[to.boxId - 1],
-    //               this.grid[from.boxId - 1]
-    //             ];
-
-    //             validateMove = true;
-    //             return;
-    //           }
-    //         }
-    //       });
-    //     }
-    //   }
-    // }
+        console.log(winMove);
+      }
+    } else if (from.typePawns === "queen") {
+      console.log("move queen");
+    }
 
     return validateMove;
   }
