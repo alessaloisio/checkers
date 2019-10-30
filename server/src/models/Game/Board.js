@@ -54,6 +54,8 @@ class Board {
           const diaSecondId = this.getDiagonalBox(diagonal);
 
           if (diaSecondId.includes(to.boxId)) {
+            // BUG : verify if continously
+
             // swap and remove
             this.grid[diagonal - 1] = 0;
 

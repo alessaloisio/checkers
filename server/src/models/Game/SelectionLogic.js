@@ -22,9 +22,7 @@ const Logic = props => {
       // if we have already one pawns selected
       if (game.board.history.length() > 0) {
         if (selectedBox.typePawns === "empty") {
-          // determine the best move
           const move = game.board.moveBoxes(selectedBox);
-
           if (move) {
             // Remove active box selection
             io.to(game.room).emit(
@@ -32,11 +30,29 @@ const Logic = props => {
               game.board.history.list[0]
             );
 
+            // Before switch verify
+            let switchHand = true;
+
+            game.board.getDiagonalBox(selectedBox.boxId).map(diagonal => {
+              // if (
+              //   (selectedBox.typePawnsId === 2 &&
+              //     game.board.grid[diagonal - 1] === 1) ||
+              //   (selectedBox.typePawnsId === 1 &&
+              //     game.board.grid[diagonal - 1] === 2)
+              // ) {
+              //   switchHand = false;
+              //   return;
+              // }
+              console.log(diagonal);
+              console.log(game.board.grid[selectedBox.boxId - 1]);
+              console.log(game.board.grid[diagonal - 1]);
+            });
+
+            if (switchHand)
+              game.hand = game.players.filter(p => p.id !== player.id)[0].id;
+
             // CLEAN
             game.board.history.clean();
-
-            // Switch player
-            game.hand = game.players.filter(p => p.id !== player.id)[0].id;
 
             io.to(game.room).emit("updateGame", game);
           }
