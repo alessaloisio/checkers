@@ -30,69 +30,110 @@ class Board {
     const diagonalId = this.getDiagonalBox(from.boxId);
 
     // Warning for a normal pawns
-    if (diagonalId.includes(to.boxId)) {
-      /**
-       * Simple move
-       */
-      // SWAP destructuring
-      [this.grid[from.boxId - 1], this.grid[to.boxId - 1]] = [
-        this.grid[to.boxId - 1],
-        this.grid[from.boxId - 1]
-      ];
+    // if (Object.values(diagonalId).includes(to.boxId)) {
+    //   /**
+    //    * Simple move
+    //    */
+    //   // SWAP destructuring
+    //   [this.grid[from.boxId - 1], this.grid[to.boxId - 1]] = [
+    //     this.grid[to.boxId - 1],
+    //     this.grid[from.boxId - 1]
+    //   ];
 
-      validateMove = true;
-    } else {
-      /**
-       * Maybe win a pawns
-       */
-      diagonalId.map(diagonal => {
-        // need verification => performance
-        if (
-          (from.typePawnsId === 2 && this.grid[diagonal - 1] === 1) ||
-          (from.typePawnsId === 1 && this.grid[diagonal - 1] === 2)
-        ) {
-          const diaSecondId = this.getDiagonalBox(diagonal);
+    //   validateMove = true;
+    // } else {
+    //   /**
+    //    * Maybe win a pawns
+    //    */
+    //   for (const axe in diagonalId) {
+    //     if (diagonalId.hasOwnProperty(axe)) {
+    //       diagonalId[axe].map(diagonal => {
+    //         // need verification => performance
+    //         if (
+    //           (from.typePawnsId === 2 && this.grid[diagonal - 1] === 1) ||
+    //           (from.typePawnsId === 1 && this.grid[diagonal - 1] === 2)
+    //         ) {
+    //           const diaSecondId = this.getDiagonalBox(diagonal);
 
-          if (diaSecondId.includes(to.boxId)) {
-            // BUG : verify if continously
+    //           if (Object.values(diaSecondId).includes(to.boxId)) {
+    //             // BUG : verify if continously
 
-            // swap and remove
-            this.grid[diagonal - 1] = 0;
+    //             // swap and remove
+    //             this.grid[diagonal - 1] = 0;
 
-            [this.grid[from.boxId - 1], this.grid[to.boxId - 1]] = [
-              this.grid[to.boxId - 1],
-              this.grid[from.boxId - 1]
-            ];
+    //             [this.grid[from.boxId - 1], this.grid[to.boxId - 1]] = [
+    //               this.grid[to.boxId - 1],
+    //               this.grid[from.boxId - 1]
+    //             ];
 
-            validateMove = true;
-            return;
-          }
-        }
-      });
-    }
+    //             validateMove = true;
+    //             return;
+    //           }
+    //         }
+    //       });
+    //     }
+    //   }
+    // }
 
     return validateMove;
   }
 
-  recursiveDiagonal() {}
+  recursiveDiagonal(id, currentAxe = null) {
+    let availableSelection = { ...this.getDiagonalBox(id) };
+
+    // Stop Recursive
+    if (currentAxe && !availableSelection[currentAxe].length) return {};
+
+    // EVERY AXES (TL,TR, BL, BR)
+    for (const axe in availableSelection) {
+      if (availableSelection.hasOwnProperty(axe)) {
+        const axeDiagonalId = availableSelection[axe];
+
+        if (axeDiagonalId.length) {
+          if (!currentAxe || axe === currentAxe) {
+            const addDiagonal = this.recursiveDiagonal(axeDiagonalId[0], axe)[
+              axe
+            ];
+
+            if (typeof addDiagonal !== "undefined")
+              availableSelection[axe] = [
+                ...availableSelection[axe],
+                ...addDiagonal
+              ];
+          }
+        }
+      }
+    }
+
+    return availableSelection;
+  }
 
   getDiagonalBox(id) {
-    let availableSelection = [];
+    let availableSelection = {
+      TL: [],
+      TR: [],
+      BL: [],
+      BR: []
+    };
 
     let iterator = 0;
     if (id % 10 < 1 || id % 10 > 5) iterator--;
+
     // TopLeft
     if (id > 5 && ![6, 16, 26, 36, 46].includes(id))
-      availableSelection.push(iterator + id - 5);
+      availableSelection["TL"].push(iterator + id - 5);
+
     // TopRight
     if (id > 5 && ![15, 25, 35, 45].includes(id))
-      availableSelection.push(iterator + id - 4);
+      availableSelection["TR"].push(iterator + id - 4);
+
     // BottomLeft
     if (id < 46 && ![6, 16, 26, 36].includes(id))
-      availableSelection.push(iterator + id + 5);
+      availableSelection["BL"].push(iterator + id + 5);
+
     // BottomRight
     if (id < 45 && ![5, 15, 25, 35].includes(id))
-      availableSelection.push(iterator + id + 6);
+      availableSelection["BR"].push(iterator + id + 6);
 
     return availableSelection;
   }
