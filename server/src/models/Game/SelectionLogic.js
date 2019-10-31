@@ -27,8 +27,12 @@ const Logic = props => {
             );
 
             // Before switch verify
-            let switchHand = true;
-            //
+            console.log(selectedBox);
+            let switchHand = game.board.verifySwitchHand(
+              new SelectedBox({ boxId, player, game }),
+              selectedBox.win || false
+            );
+
             if (switchHand)
               game.hand = game.players.filter(p => p.id !== player.id)[0].id;
 

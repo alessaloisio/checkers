@@ -1,6 +1,7 @@
 "use strict";
 
 import SelectedHistory from "./SelectedHistory";
+import SelectedBox from "./SelectedBox";
 
 class Board {
   constructor() {
@@ -61,6 +62,8 @@ class Board {
                 this.grid[to.boxId - 1],
                 this.grid[from.boxId - 1]
               ];
+
+              to.win = true;
 
               validateMove = true;
               break;
@@ -141,7 +144,31 @@ class Board {
     return availableSelection;
   }
 
-  verifySwitchHand() {}
+  verifySwitchHand(selectedBox, winAction) {
+    let resolve = true;
+
+    if (winAction) {
+      const winMove = this.recursiveDiagonal(selectedBox.boxId, 2);
+
+      for (const key in winMove) {
+        if (winMove.hasOwnProperty(key)) {
+          const arr = winMove[key];
+
+          if (
+            arr.length > 1 &&
+            this.grid[arr[1] - 1] === 0 &&
+            (this.grid[arr[0] - 1] > 0 &&
+              this.grid[arr[0] - 1] !== selectedBox.typePawnsId)
+          ) {
+            resolve = false;
+            break;
+          }
+        }
+      }
+    }
+
+    return resolve;
+  }
 }
 
 export default Board;
