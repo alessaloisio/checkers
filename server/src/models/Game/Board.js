@@ -225,7 +225,6 @@ class Board {
   }
 
   verifySwitchQueen(selectedBox) {
-    console.log(selectedBox);
     if (
       (selectedBox.typePawnsId === 1 &&
         [46, 47, 48, 49, 50].includes(selectedBox.boxId)) ||

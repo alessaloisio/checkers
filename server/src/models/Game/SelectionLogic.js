@@ -9,7 +9,7 @@ const Logic = props => {
   const [player, game] = getPlayerGame(games, client.id);
 
   const selectedBox = new SelectedBox({ boxId, player, game });
-  // console.log(selectedBox);
+  console.log(selectedBox);
 
   let emit = false;
 

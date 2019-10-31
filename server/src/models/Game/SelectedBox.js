@@ -16,9 +16,10 @@ class SelectedBox {
 
     let value = false;
     if (this.playerId === game.hand) {
+      // need transform to str for "1a|2a" => queen pawns
       if (
         game.board.grid[this.boxId - 1] === 0 ||
-        game.board.grid[this.boxId - 1] === player.boardPawnsId
+        ("" + game.board.grid[this.boxId - 1])[0] == player.boardPawnsId
       ) {
         value = true;
       }
