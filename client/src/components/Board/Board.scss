@@ -46,6 +46,23 @@
           border-radius: 100%;
           display: block;
 
+          &.queen::before {
+            content: "";
+            background-image: url(./crown.svg);
+            background-size: 65% 65%;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+          }
+
+          &.black.queen::before {
+            filter: invert(100%);
+          }
+
           &::after {
             content: "";
             position: absolute;

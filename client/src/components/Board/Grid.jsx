@@ -91,10 +91,18 @@ const Grid = props => {
             case 2:
               pawns.classList.add("white");
               break;
+            case "1a":
+              pawns.classList.add("black");
+              pawns.classList.add("queen");
+              break;
+            case "2a":
+              pawns.classList.add("white");
+              pawns.classList.add("queen");
+              break;
             default:
           }
 
-          if (Game.board.grid[iterator] > 0) box.appendChild(pawns);
+          if (Game.board.grid[iterator]) box.appendChild(pawns);
 
           if (boardPawnsId > 1) iterator++;
           else iterator--;

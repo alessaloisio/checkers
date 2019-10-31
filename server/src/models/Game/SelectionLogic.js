@@ -26,10 +26,14 @@ const Logic = props => {
               game.board.history.list[0]
             );
 
+            const newSelectedBox = new SelectedBox({ boxId, player, game });
+
+            // Need to transform to queen
+            game.board.verifySwitchQueen(newSelectedBox);
+
             // Before switch verify
-            console.log(selectedBox);
             let switchHand = game.board.verifySwitchHand(
-              new SelectedBox({ boxId, player, game }),
+              newSelectedBox,
               selectedBox.win || false
             );
 

@@ -1,7 +1,6 @@
 "use strict";
 
 import SelectedHistory from "./SelectedHistory";
-import SelectedBox from "./SelectedBox";
 
 class Board {
   constructor() {
@@ -10,15 +9,68 @@ class Board {
   }
 
   init() {
-    const grid = [];
+    // const grid = [];
 
-    for (let i = 0; i < 50; i++) {
-      // black 1 => 20
-      // white 31 => 50
-      if (i >= 0 && i <= 19) grid.push(1);
-      else if (i >= 30 && i <= 49) grid.push(2);
-      else grid.push(0);
-    }
+    // for (let i = 0; i < 50; i++) {
+    //   // black 1 => 20
+    //   // white 31 => 50
+    //   if (i >= 0 && i <= 19) grid.push(1);
+    //   else if (i >= 30 && i <= 49) grid.push(2);
+    //   else grid.push(0);
+    // }
+
+    const grid = [
+      0,
+      0,
+      1,
+      0,
+      1,
+      0,
+      2,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      2,
+      0,
+      1,
+      1,
+      2,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      2,
+      2,
+      0,
+      2,
+      0
+    ];
 
     return grid;
   }
@@ -148,26 +200,40 @@ class Board {
     let resolve = true;
 
     if (winAction) {
-      const winMove = this.recursiveDiagonal(selectedBox.boxId, 2);
+      if (selectedBox.typePawns === "normal") {
+        const winMove = this.recursiveDiagonal(selectedBox.boxId, 2);
 
-      for (const key in winMove) {
-        if (winMove.hasOwnProperty(key)) {
-          const arr = winMove[key];
+        for (const key in winMove) {
+          if (winMove.hasOwnProperty(key)) {
+            const arr = winMove[key];
 
-          if (
-            arr.length > 1 &&
-            this.grid[arr[1] - 1] === 0 &&
-            (this.grid[arr[0] - 1] > 0 &&
-              this.grid[arr[0] - 1] !== selectedBox.typePawnsId)
-          ) {
-            resolve = false;
-            break;
+            if (
+              arr.length > 1 &&
+              this.grid[arr[1] - 1] === 0 &&
+              (this.grid[arr[0] - 1] > 0 &&
+                this.grid[arr[0] - 1] !== selectedBox.typePawnsId)
+            ) {
+              resolve = false;
+              break;
+            }
           }
         }
       }
     }
 
     return resolve;
+  }
+
+  verifySwitchQueen(selectedBox) {
+    console.log(selectedBox);
+    if (
+      (selectedBox.typePawnsId === 1 &&
+        [46, 47, 48, 49, 50].includes(selectedBox.boxId)) ||
+      (selectedBox.typePawnsId === 2 &&
+        [1, 2, 3, 4, 5].includes(selectedBox.boxId))
+    ) {
+      this.grid[selectedBox.boxId - 1] += "a";
+    }
   }
 }
 
