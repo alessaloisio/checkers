@@ -19,6 +19,7 @@ class Board {
     //   else grid.push(0);
     // }
 
+    // DEMO DEV
     const grid = [
       0,
       0,
@@ -125,6 +126,8 @@ class Board {
       }
     } else if (from.typePawns === "queen") {
       console.log("move queen");
+      console.log(from);
+      console.log(this.recursiveDiagonal(from.boxId));
     }
 
     return validateMove;
@@ -133,7 +136,7 @@ class Board {
   recursiveDiagonal(id, limit = null, currentAxe = null) {
     let availableSelection = { ...this.getDiagonalBox(id) };
     // To show one value limit have to be 0
-    if (limit) limit--;
+    if (limit > 0) limit--;
 
     if (limit > 0 || limit === null) {
       // Stop Recursive
@@ -148,7 +151,7 @@ class Board {
             if (!currentAxe || axe === currentAxe) {
               const addDiagonal = this.recursiveDiagonal(
                 axeDiagonalId[0],
-                --limit,
+                limit > 0 ? --limit : null,
                 axe
               )[axe];
 
