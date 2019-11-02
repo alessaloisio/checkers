@@ -26,49 +26,58 @@ class Board {
       1,
       0,
       1,
-      0,
-      2,
-      1,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      2,
-      0,
-      1,
-      1,
-      2,
-      1,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
+
       0,
       1,
       0,
       0,
       0,
-      2,
+
+      0,
       2,
       0,
+      0,
+      0,
+
+      0,
+      0,
+      "2a",
+      0,
+      0,
+
+      0,
+      0,
+      0,
+      0,
+      0,
+
+      0,
+      2,
+      0,
+      1,
+      1,
+
+      0,
+      0,
+      1,
+      1,
+      0,
+
+      0,
+      2,
+      0,
+      0,
+      0,
+
+      0,
+      0,
+      0,
+      0,
+      0,
+
+      2,
+      2,
+      "1a",
       2,
       0
     ];
@@ -125,9 +134,60 @@ class Board {
         }
       }
     } else if (from.typePawns === "queen") {
-      console.log("move queen");
-      console.log(from);
-      console.log(this.recursiveDiagonal(from.boxId));
+      const queenMove = this.recursiveDiagonal(from.boxId);
+      let idRemovePawn = null;
+
+      // detect the axes
+      for (const axe in queenMove) {
+        if (queenMove.hasOwnProperty(axe)) {
+          const arr = queenMove[axe];
+          if (arr.includes(to.boxId)) {
+            let nbOpponentPawns = 0;
+
+            // verify all pawns
+            for (const key in arr) {
+              if (arr.hasOwnProperty(key)) {
+                const boxId = arr[key];
+
+                // stop before the final position
+                if (boxId !== to.boxId) {
+                  const typePawnsId = ("" + this.grid[boxId - 1])[0];
+                  // not hover the same typePawns
+                  if (typePawnsId !== ("" + from.typePawnsId)[0]) {
+                    // verify if he win a pawn
+                    if (
+                      typePawnsId > 0 &&
+                      typePawnsId !== ("" + from.typePawnsId)[0]
+                    ) {
+                      idRemovePawn = boxId;
+                      nbOpponentPawns++;
+                    }
+                  } else {
+                    validateMove = false;
+                    nbOpponentPawns = 2;
+                    break;
+                  }
+                } else break;
+              }
+            }
+
+            // can't hover 2 pawns
+            if (nbOpponentPawns <= 1) {
+              // remove && swap
+              if (nbOpponentPawns) {
+                this.grid[idRemovePawn - 1] = 0;
+              }
+
+              [this.grid[from.boxId - 1], this.grid[to.boxId - 1]] = [
+                this.grid[to.boxId - 1],
+                this.grid[from.boxId - 1]
+              ];
+
+              validateMove = true;
+            }
+          }
+        }
+      }
     }
 
     return validateMove;

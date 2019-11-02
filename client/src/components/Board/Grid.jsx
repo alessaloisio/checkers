@@ -120,7 +120,7 @@ const Grid = props => {
       if (value.verification) {
         const gridBox = Array.from(gridRef.current.childNodes);
 
-        if (value.typePawnsId === 2) gridBox.reverse();
+        if (parseInt(("" + value.typePawnsId)[0]) === 2) gridBox.reverse();
 
         if (props.playerId === value.playerId)
           gridBox[50 - value.boxId].classList.toggle("active");
