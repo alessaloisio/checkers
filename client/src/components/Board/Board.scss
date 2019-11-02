@@ -25,7 +25,7 @@
       background-color: #d6cfbc;
 
       .case {
-        background-color: #5d4022;
+        background-color: #825629;
         width: 60px;
         height: 60px;
         position: absolute;
@@ -122,10 +122,17 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      transition: all 0.5s linear;
+    }
+
+    .versus {
+      font-size: 1.5em;
+      color: #c30c0c;
+      font-weight: bolder;
     }
 
     .round {
-      background-color: yellow;
+      background-color: #fff;
       display: inline-block;
       width: 10px;
       height: 10px;

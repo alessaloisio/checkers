@@ -176,6 +176,7 @@ class Board {
               // remove && swap
               if (nbOpponentPawns) {
                 this.grid[idRemovePawn - 1] = 0;
+                to.win = true;
               }
 
               [this.grid[from.boxId - 1], this.grid[to.boxId - 1]] = [
@@ -266,9 +267,9 @@ class Board {
       if (selectedBox.typePawns === "normal") {
         const winMove = this.recursiveDiagonal(selectedBox.boxId, 2);
 
-        for (const key in winMove) {
-          if (winMove.hasOwnProperty(key)) {
-            const arr = winMove[key];
+        for (const axe in winMove) {
+          if (winMove.hasOwnProperty(axe)) {
+            const arr = winMove[axe];
 
             if (
               arr.length > 1 &&
@@ -278,6 +279,38 @@ class Board {
             ) {
               resolve = false;
               break;
+            }
+          }
+        }
+      } else if (selectedBox.typePawns === "queen") {
+        const winMove = this.recursiveDiagonal(selectedBox.boxId);
+        const typePawnsId = ("" + this.grid[selectedBox.boxId - 1])[0];
+
+        for (const axe in winMove) {
+          if (winMove.hasOwnProperty(axe)) {
+            const arr = winMove[axe];
+            if (arr.length > 1) {
+              for (const key in arr) {
+                if (arr.hasOwnProperty(key)) {
+                  const boxId = arr[key];
+                  const currentPawnId = ("" + this.grid[boxId - 1])[0];
+                  const nextPawnId = ("" + this.grid[boxId])[0];
+
+                  // attention arrêt quand il y a un pion du même joueur
+                  if (currentPawnId == typePawnsId) break;
+
+                  if (
+                    currentPawnId > 0 &&
+                    currentPawnId != typePawnsId &&
+                    nextPawnId == 0
+                  ) {
+                    resolve = false;
+                    break;
+                  }
+                }
+              }
+
+              if (!resolve) break;
             }
           }
         }

@@ -61,7 +61,7 @@ const Board = () => {
             >
               {Game.players[0].name}
             </span>
-            vs
+            <span className="versus">vs</span>
             {Game.players[1].id === Game.hand ? (
               <span className="round"></span>
             ) : (
