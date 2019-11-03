@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 
-import { playerJoined, getPlayerInfo, getGameUpdate } from "../../socket";
+import {
+  playerJoined,
+  getPlayerInfo,
+  getGameUpdate,
+  sendPlayerGiveUp
+} from "../../socket";
 import Grid from "./Grid";
 
 import "./Board.scss";
@@ -30,21 +35,28 @@ const Board = () => {
     });
   }, [Game]);
 
-  const searchOpponent = () => {
-    // StatusPlayer = 1 => ready to play
+  const infoMessage = () => {
+    let message = "";
+
     // waiting a opponent in the room
-    if (StatusPlayer >= 1 && !Game) {
+    if (StatusPlayer >= 1 && !Game) message = "Search Opponent";
+    else if (Game && !Game.status) {
+      if (PlayerId === Game.winnerId) message = "You win !";
+      else message = "End Game";
+    }
+
+    if (message !== "") {
       return (
-        <div className="search-opponent">
-          <h2>Search Opponent</h2>
+        <div className="infos-message">
+          <h2>{message}</h2>
         </div>
       );
     }
   };
 
-  const opponentGUI = () => {
+  const playersInfoGUI = () => {
     // Opponent Joined
-    if (Game) {
+    if (Game && Game.status) {
       // Show opponents name
       return (
         <div className="players-opponent">
@@ -84,12 +96,27 @@ const Board = () => {
     if (PlayerId) return <Grid game={Game} playerId={PlayerId} />;
   };
 
+  const handleGiveUp = () => {
+    sendPlayerGiveUp(PlayerId);
+  };
+
+  const gameInfoGUI = () => {
+    if (Game && Game.status) {
+      return (
+        <div className="game-infos">
+          <button onClick={handleGiveUp}>Give Up</button>
+        </div>
+      );
+    }
+  };
+
   return (
     <div className="Board">
-      {searchOpponent()}
+      {infoMessage()}
       <div className="container">
-        {opponentGUI()}
+        {playersInfoGUI()}
         {importGrid()}
+        {gameInfoGUI()}
       </div>
     </div>
   );

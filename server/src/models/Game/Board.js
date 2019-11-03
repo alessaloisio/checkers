@@ -28,13 +28,13 @@ class Board {
       1,
 
       0,
-      1,
+      2,
       0,
       0,
       0,
 
       0,
-      2,
+      1,
       0,
       0,
       0,
@@ -75,10 +75,10 @@ class Board {
       0,
       0,
 
-      2,
-      2,
+      0,
+      0,
       "1a",
-      2,
+      0,
       0
     ];
 
@@ -279,12 +279,14 @@ class Board {
         for (const axe in winMove) {
           if (winMove.hasOwnProperty(axe)) {
             const arr = winMove[axe];
+            const firstPawnId = ("" + this.grid[arr[0] - 1])[0];
+            const secondPawnId = ("" + this.grid[arr[1] - 1])[0];
 
             if (
               arr.length > 1 &&
-              this.grid[arr[1] - 1] === 0 &&
-              (this.grid[arr[0] - 1] > 0 &&
-                this.grid[arr[0] - 1] !== selectedBox.typePawnsId)
+              parseInt(secondPawnId) === 0 &&
+              (parseInt(firstPawnId) > 0 &&
+                firstPawnId !== selectedBox.typePawnsId)
             ) {
               resolve = false;
               break;
@@ -340,6 +342,24 @@ class Board {
     ) {
       this.grid[selectedBox.boxId - 1] += "a";
     }
+  }
+
+  verifyEndGame() {
+    let winner = false;
+
+    let player1 = 0,
+      player2 = 0;
+
+    this.grid.map(p => {
+      const pawn = parseInt(("" + p)[0]);
+      if (pawn === 1) player1++;
+      else if (pawn === 2) player2++;
+    });
+
+    if (player1 === 0) winner = 2;
+    else if (player2 === 0) winner = 1;
+
+    return winner;
   }
 }
 

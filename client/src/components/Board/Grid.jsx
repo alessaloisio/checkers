@@ -8,7 +8,7 @@ const Grid = props => {
   const Game = props.game;
 
   const handleBox = (e, id) => {
-    if (Game) {
+    if (Game && Game.status) {
       sendSelectedBox(id);
     }
   };

@@ -3,6 +3,7 @@ import socket from "socket.io";
 import Player from "./models/Player";
 import RoomManager from "./models/RoomManager";
 import SelectionLogic from "./models/Game/SelectionLogic";
+import EndGame from "./models/Game/EndGame";
 
 const io = socket();
 
@@ -56,6 +57,15 @@ io.on("connection", client => {
         boxId
       });
     });
+
+    /**
+     * Player want to give up
+     */
+    client.on("playerGiveUp", () => {
+      EndGame({
+        self
+      });
+    });
   });
 
   /**
@@ -63,12 +73,10 @@ io.on("connection", client => {
    */
   client.on("disconnect", () => {
     console.log(`Client ${player.name} disconnected`);
+    EndGame({ self });
 
     // Remove Player from players Array
     players = players.filter(player => player.id !== client.id);
-
-    // if players on room playing and one opponent leave
-    // we have to notify the rival player
   });
 });
 

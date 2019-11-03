@@ -11,6 +11,7 @@ class Game {
     this.initPawnsId();
 
     this.board = new Board();
+    this.status = 1; // 1: onGame || 0: endGame
   }
 
   playersOnGame() {

@@ -1,6 +1,8 @@
 "use strict";
 
 import SelectedBox from "./SelectedBox";
+import getPlayerGame from "./getPlayerGame";
+import EndGame from "./EndGame";
 
 const Logic = props => {
   const { io, client, games } = props.self;
@@ -43,6 +45,15 @@ const Logic = props => {
             game.board.history.clean();
 
             io.to(game.room).emit("updateGame", game);
+
+            // Verify End Game
+            const winner = game.board.verifyEndGame();
+            if (winner) {
+              EndGame({
+                self: props.self,
+                winner: game.players.filter(p => p.boardPawnsId === winner)[0]
+              });
+            }
           }
         }
       } else if (selectedBox.typePawns !== "empty") {
@@ -56,20 +67,6 @@ const Logic = props => {
   }
 
   if (emit) io.to(game.room).emit("returnVerificationSelectedBox", selectedBox);
-};
-
-const getPlayerGame = (games, clientId) => {
-  for (const key in games) {
-    if (games.hasOwnProperty(key)) {
-      const game = games[key];
-      for (const kPLayer in game.players) {
-        if (game.players.hasOwnProperty(kPLayer)) {
-          const player = game.players[kPLayer];
-          if (player.id === clientId) return [player, game];
-        }
-      }
-    }
-  }
 };
 
 export default Logic;

@@ -37,6 +37,10 @@ const getGameUpdate = cb => {
   socket.on("updateGame", game => cb(null, game));
 };
 
+const sendPlayerGiveUp = () => {
+  socket.emit("playerGiveUp", null);
+};
+
 export {
   getPlayerInfo,
   changeNamePlayer,
@@ -44,5 +48,6 @@ export {
   playerJoined,
   sendSelectedBox,
   getVerfificationSelectedBox,
-  getGameUpdate
+  getGameUpdate,
+  sendPlayerGiveUp
 };
