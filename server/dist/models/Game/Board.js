@@ -220,7 +220,7 @@ function () {
               var firstPawnId = ("" + this.grid[arr[0] - 1])[0];
               var secondPawnId = ("" + this.grid[arr[1] - 1])[0];
 
-              if (arr.length > 1 && parseInt(secondPawnId) === 0 && parseInt(firstPawnId) > 0 && firstPawnId !== selectedBox.typePawnsId) {
+              if (arr.length > 1 && parseInt(secondPawnId) === 0 && parseInt(firstPawnId) > 0 && firstPawnId != selectedBox.typePawnsId) {
                 resolve = false;
                 break;
               }
@@ -243,7 +243,7 @@ function () {
 
                   if (currentPawnId == typePawnsId || currentPawnId === nextPawnId) break;
 
-                  if (currentPawnId > 0 && currentPawnId != typePawnsId && nextPawnId == 0) {
+                  if (parseInt(currentPawnId) > 0 && currentPawnId != typePawnsId && nextPawnId == 0) {
                     resolve = false;
                     break;
                   }

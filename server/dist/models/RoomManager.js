@@ -30,8 +30,8 @@ var Room = function Room(props) {
       // We detect a room available with a opponent ready to play
       if (room !== player.id && rooms[room].length <= 1 && rooms[room].sockets[room]) {
         // Get the available id room
-        var availableRoom = Object.keys(rooms[room].sockets)[0]; // client.leave(client.id);
-
+        var availableRoom = Object.keys(rooms[room].sockets)[0];
+        client.leave(client.id);
         client.join(availableRoom);
         player.room = availableRoom; // First player1 who create the room
 

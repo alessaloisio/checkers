@@ -43,7 +43,7 @@ io.on("connection", function (client) {
    */
 
   client.on("playBtn", function () {
-    console.log("".concat(player.name, " want to play !"));
+    // console.log(`${player.name} want to play !`);
     (0, _RoomManager["default"])({
       self: self,
       players: players,
@@ -68,22 +68,32 @@ io.on("connection", function (client) {
         self: self
       });
     });
+    /**
+     * Leave Player2 from room
+     */
+
+    client.on("leaveRoom", function (room) {
+      var rooms = io.of("/").adapter.rooms;
+      if (rooms[room]) client.leave(room);
+      client.join(client.id);
+      io.of("/").adapter.rooms[client.id].sockets[client.id] = false;
+    });
   });
   /**
    * Disconnected
    */
 
   client.on("disconnect", function () {
-    console.log("Client ".concat(player.name, " disconnected"));
+    // console.log(`Client ${player.name} disconnected`);
     var newGames = (0, _EndGame["default"])({
       self: self
     });
-    if (newGames) games = newGames;
-    console.log("last", games); // Remove Player from players Array
+    if (newGames) games = newGames; // Remove Player from players Array
 
     players = players.filter(function (player) {
       return player.id !== client.id;
     });
+    delete io.of("/").adapter.rooms[client.id];
   });
 }); // START SERVER
 
