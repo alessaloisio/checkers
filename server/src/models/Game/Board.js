@@ -96,13 +96,16 @@ class Board {
       );
 
       if (simpleMove.includes(to.boxId)) {
-        // SWAP destructuring
-        [this.grid[from.boxId - 1], this.grid[to.boxId - 1]] = [
-          this.grid[to.boxId - 1],
-          this.grid[from.boxId - 1]
-        ];
+        // force to take a pawns
+        if (this.verifySwitchHand(from, true)) {
+          // SWAP destructuring
+          [this.grid[from.boxId - 1], this.grid[to.boxId - 1]] = [
+            this.grid[to.boxId - 1],
+            this.grid[from.boxId - 1]
+          ];
 
-        validateMove = true;
+          validateMove = true;
+        }
       } else {
         // Maybe Win Process
         const winMove = this.recursiveDiagonal(from.boxId, 2);
@@ -173,18 +176,23 @@ class Board {
 
             // can't hover 2 pawns
             if (nbOpponentPawns <= 1) {
+              let force = true;
               // remove && swap
               if (nbOpponentPawns) {
                 this.grid[idRemovePawn - 1] = 0;
                 to.win = true;
+              } else {
+                force = this.verifySwitchHand(from, true);
               }
 
-              [this.grid[from.boxId - 1], this.grid[to.boxId - 1]] = [
-                this.grid[to.boxId - 1],
-                this.grid[from.boxId - 1]
-              ];
+              if (force) {
+                [this.grid[from.boxId - 1], this.grid[to.boxId - 1]] = [
+                  this.grid[to.boxId - 1],
+                  this.grid[from.boxId - 1]
+                ];
 
-              validateMove = true;
+                validateMove = true;
+              }
             }
           }
         }
@@ -286,27 +294,33 @@ class Board {
         const winMove = this.recursiveDiagonal(selectedBox.boxId);
         const typePawnsId = ("" + this.grid[selectedBox.boxId - 1])[0];
 
+        console.log("\n\n", selectedBox);
+
         for (const axe in winMove) {
           if (winMove.hasOwnProperty(axe)) {
             const arr = winMove[axe];
             if (arr.length > 1) {
-              for (const key in arr) {
-                if (arr.hasOwnProperty(key)) {
-                  const boxId = arr[key];
-                  const currentPawnId = ("" + this.grid[boxId - 1])[0];
-                  const nextPawnId = ("" + this.grid[boxId])[0];
+              console.log(axe, arr);
+              for (let i = 0; i < arr.length; i++) {
+                const boxId = arr[i];
+                const currentPawnId = ("" + this.grid[boxId - 1])[0];
+                const nextPawnId = ("" + this.grid[arr[i + 1] - 1])[0];
+                console.log(boxId, typePawnsId, currentPawnId, nextPawnId);
+                // attention arrêt quand il y a un pion du même joueur
+                if (
+                  currentPawnId == typePawnsId ||
+                  currentPawnId === nextPawnId
+                )
+                  break;
 
-                  // attention arrêt quand il y a un pion du même joueur
-                  if (currentPawnId == typePawnsId) break;
-
-                  if (
-                    currentPawnId > 0 &&
-                    currentPawnId != typePawnsId &&
-                    nextPawnId == 0
-                  ) {
-                    resolve = false;
-                    break;
-                  }
+                if (
+                  currentPawnId > 0 &&
+                  currentPawnId != typePawnsId &&
+                  nextPawnId == 0
+                ) {
+                  resolve = false;
+                  console.log("resolve");
+                  break;
                 }
               }
 
