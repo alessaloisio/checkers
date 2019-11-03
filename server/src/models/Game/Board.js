@@ -113,12 +113,13 @@ class Board {
         for (const axe in winMove) {
           if (winMove.hasOwnProperty(axe)) {
             const arr = winMove[axe];
+            const typePawnsId = ("" + from.typePawnsId)[0];
+            const nextPawnId = ("" + this.grid[arr[0] - 1])[0];
 
             if (
               arr.length > 1 &&
               arr[1] === to.boxId &&
-              (this.grid[arr[0] - 1] > 0 &&
-                this.grid[arr[0] - 1] !== from.typePawnsId)
+              (parseInt(nextPawnId) > 0 && nextPawnId !== typePawnsId)
             ) {
               // You WIN a pawns
               this.grid[arr[0] - 1] = 0;
@@ -294,18 +295,15 @@ class Board {
         const winMove = this.recursiveDiagonal(selectedBox.boxId);
         const typePawnsId = ("" + this.grid[selectedBox.boxId - 1])[0];
 
-        console.log("\n\n", selectedBox);
-
         for (const axe in winMove) {
           if (winMove.hasOwnProperty(axe)) {
             const arr = winMove[axe];
             if (arr.length > 1) {
-              console.log(axe, arr);
               for (let i = 0; i < arr.length; i++) {
                 const boxId = arr[i];
                 const currentPawnId = ("" + this.grid[boxId - 1])[0];
                 const nextPawnId = ("" + this.grid[arr[i + 1] - 1])[0];
-                console.log(boxId, typePawnsId, currentPawnId, nextPawnId);
+
                 // attention arrêt quand il y a un pion du même joueur
                 if (
                   currentPawnId == typePawnsId ||
@@ -319,7 +317,6 @@ class Board {
                   nextPawnId == 0
                 ) {
                   resolve = false;
-                  console.log("resolve");
                   break;
                 }
               }
