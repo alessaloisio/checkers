@@ -15,8 +15,6 @@ const EndGame = props => {
       game.winnerId = game.players.filter(p => p.id !== player.id)[0].id;
     else game.winnerId = winner.id;
 
-    console.log(game);
-
     io.to(game.room).emit("updateGame", game);
 
     // Remove the opponent of the room
