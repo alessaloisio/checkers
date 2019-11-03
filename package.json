@@ -1,0 +1,16 @@
+{
+  "name": "checkers",
+  "version": "1.0.0",
+  "description": "Checkers to deploy on Heroku",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "checkers",
+    "react",
+    "socket.io",
+    "heroku"
+  ],
+  "author": "Alessandro Aloisio",
+  "license": "MIT"
+}
