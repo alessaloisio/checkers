@@ -40,7 +40,7 @@ io.on("connection", client => {
    * Player ready to search opponent and start the game
    */
   client.on("playBtn", () => {
-    console.log(`${player.name} want to play !`);
+    // console.log(`${player.name} want to play !`);
 
     RoomManager({
       self,
@@ -64,20 +64,33 @@ io.on("connection", client => {
     client.on("playerGiveUp", () => {
       games = EndGame({ self });
     });
+
+    /**
+     * Leave Player2 from room
+     */
+    client.on("leaveRoom", room => {
+      const rooms = io.of("/").adapter.rooms;
+
+      if (rooms[room]) client.leave(room);
+
+      client.join(client.id);
+      io.of("/").adapter.rooms[client.id].sockets[client.id] = false;
+    });
   });
 
   /**
    * Disconnected
    */
   client.on("disconnect", () => {
-    console.log(`Client ${player.name} disconnected`);
+    // console.log(`Client ${player.name} disconnected`);
 
     const newGames = EndGame({ self });
     if (newGames) games = newGames;
-    console.log("last", games);
 
     // Remove Player from players Array
     players = players.filter(player => player.id !== client.id);
+
+    delete io.of("/").adapter.rooms[client.id];
   });
 });
 

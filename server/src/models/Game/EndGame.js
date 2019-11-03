@@ -15,18 +15,16 @@ const EndGame = props => {
       game.winnerId = game.players.filter(p => p.id !== player.id)[0].id;
     else game.winnerId = winner.id;
 
+    console.log(game);
+
     io.to(game.room).emit("updateGame", game);
 
     // Remove the opponent of the room
     const rooms = io.of("/").adapter.rooms;
-    rooms[game.room].length--;
+
     for (const key in rooms[game.room].sockets) {
       if (rooms[game.room].sockets.hasOwnProperty(key)) {
         rooms[game.room].sockets[key] = false;
-        if (key !== game.room) {
-          delete rooms[game.room].sockets[key];
-          rooms[key].sockets[key] = false;
-        }
       }
     }
 

@@ -4,7 +4,8 @@ import {
   playerJoined,
   getPlayerInfo,
   getGameUpdate,
-  sendPlayerGiveUp
+  sendPlayerGiveUp,
+  sendLeaveRoom
 } from "../../socket";
 import Grid from "./Grid";
 
@@ -45,6 +46,9 @@ const Board = () => {
     else if (Game && !Game.status) {
       if (PlayerId === Game.winnerId) message = "You win !";
       else message = "End Game";
+
+      // Player2 leave Room
+      if (Game.players[1].id === PlayerId) sendLeaveRoom(Game.room);
     }
 
     if (message !== "") {

@@ -25,7 +25,7 @@ const Room = props => {
         // Get the available id room
         const availableRoom = Object.keys(rooms[room].sockets)[0];
 
-        // client.leave(client.id);
+        client.leave(client.id);
         client.join(availableRoom);
         player.room = availableRoom;
 

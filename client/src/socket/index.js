@@ -41,6 +41,10 @@ const sendPlayerGiveUp = () => {
   socket.emit("playerGiveUp", null);
 };
 
+const sendLeaveRoom = room => {
+  socket.emit("leaveRoom", room);
+};
+
 export {
   getPlayerInfo,
   changeNamePlayer,
@@ -49,5 +53,6 @@ export {
   sendSelectedBox,
   getVerfificationSelectedBox,
   getGameUpdate,
-  sendPlayerGiveUp
+  sendPlayerGiveUp,
+  sendLeaveRoom
 };
