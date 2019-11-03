@@ -35,7 +35,6 @@ var EndGame = function EndGame(props) {
     if (typeof winner === "undefined") game.winnerId = game.players.filter(function (p) {
       return p.id !== player.id;
     })[0].id;else game.winnerId = winner.id;
-    console.log(game);
     io.to(game.room).emit("updateGame", game); // Remove the opponent of the room
 
     var rooms = io.of("/").adapter.rooms;
@@ -52,7 +51,7 @@ var EndGame = function EndGame(props) {
     });
   }
 
-  return null;
+  return games;
 };
 
 var _default = EndGame;

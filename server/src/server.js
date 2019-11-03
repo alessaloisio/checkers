@@ -84,13 +84,16 @@ io.on("connection", client => {
   client.on("disconnect", () => {
     // console.log(`Client ${player.name} disconnected`);
 
+    // console.log("BEFORE ALL", io.of("/").adapter.rooms);
     const newGames = EndGame({ self });
     if (newGames) games = newGames;
 
     // Remove Player from players Array
     players = players.filter(player => player.id !== client.id);
 
+    // console.log(io.of("/").adapter.rooms);
     delete io.of("/").adapter.rooms[client.id];
+    // console.log(io.of("/").adapter.rooms);
   });
 });
 

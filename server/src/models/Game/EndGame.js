@@ -30,7 +30,7 @@ const EndGame = props => {
     return games.filter(g => g.room !== game.room);
   }
 
-  return null;
+  return games;
 };
 
 export default EndGame;

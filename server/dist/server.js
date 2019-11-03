@@ -85,6 +85,7 @@ io.on("connection", function (client) {
 
   client.on("disconnect", function () {
     // console.log(`Client ${player.name} disconnected`);
+    // console.log("BEFORE ALL", io.of("/").adapter.rooms);
     var newGames = (0, _EndGame["default"])({
       self: self
     });
@@ -92,8 +93,9 @@ io.on("connection", function (client) {
 
     players = players.filter(function (player) {
       return player.id !== client.id;
-    });
-    delete io.of("/").adapter.rooms[client.id];
+    }); // console.log(io.of("/").adapter.rooms);
+
+    delete io.of("/").adapter.rooms[client.id]; // console.log(io.of("/").adapter.rooms);
   });
 }); // START SERVER
 
