@@ -5,8 +5,9 @@ import getPlayerGame from "./getPlayerGame";
 import EndGame from "./EndGame";
 
 const Logic = props => {
-  const { io, client, games } = props.self;
+  const { io, client } = props.self;
   const { boxId } = props;
+  let { games } = props.self;
 
   const [player, game] = getPlayerGame(games, client.id);
 
@@ -49,7 +50,7 @@ const Logic = props => {
             // Verify End Game
             const winner = game.board.verifyEndGame();
             if (winner) {
-              EndGame({
+              games = EndGame({
                 self: props.self,
                 winner: game.players.filter(p => p.boardPawnsId === winner)[0]
               });
@@ -67,6 +68,8 @@ const Logic = props => {
   }
 
   if (emit) io.to(game.room).emit("returnVerificationSelectedBox", selectedBox);
+
+  return games;
 };
 
 export default Logic;

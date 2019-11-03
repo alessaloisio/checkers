@@ -52,7 +52,7 @@ io.on("connection", client => {
      * Player selected a box
      */
     client.on("selectedBox", boxId => {
-      SelectionLogic({
+      games = SelectionLogic({
         self,
         boxId
       });
@@ -62,9 +62,7 @@ io.on("connection", client => {
      * Player want to give up
      */
     client.on("playerGiveUp", () => {
-      EndGame({
-        self
-      });
+      games = EndGame({ self });
     });
   });
 
@@ -73,7 +71,10 @@ io.on("connection", client => {
    */
   client.on("disconnect", () => {
     console.log(`Client ${player.name} disconnected`);
-    EndGame({ self });
+
+    const newGames = EndGame({ self });
+    if (newGames) games = newGames;
+    console.log("last", games);
 
     // Remove Player from players Array
     players = players.filter(player => player.id !== client.id);

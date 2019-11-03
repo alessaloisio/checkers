@@ -20,6 +20,8 @@ const Board = () => {
     getPlayerInfo((err, player) => {
       setStatusPlayer(player.status);
       setPlayerId(player.id);
+
+      if (Game) setGame(null);
     });
 
     // Detect if a oppenent joined the room
