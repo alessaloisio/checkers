@@ -9,78 +9,15 @@ class Board {
   }
 
   init() {
-    // const grid = [];
+    const grid = [];
 
-    // for (let i = 0; i < 50; i++) {
-    //   // black 1 => 20
-    //   // white 31 => 50
-    //   if (i >= 0 && i <= 19) grid.push(1);
-    //   else if (i >= 30 && i <= 49) grid.push(2);
-    //   else grid.push(0);
-    // }
-
-    // DEMO DEV
-    const grid = [
-      0,
-      0,
-      1,
-      0,
-      1,
-
-      0,
-      2,
-      0,
-      0,
-      0,
-
-      0,
-      1,
-      0,
-      0,
-      0,
-
-      0,
-      0,
-      "2a",
-      0,
-      0,
-
-      0,
-      0,
-      0,
-      0,
-      0,
-
-      0,
-      2,
-      0,
-      1,
-      1,
-
-      0,
-      0,
-      1,
-      1,
-      0,
-
-      0,
-      2,
-      0,
-      0,
-      0,
-
-      0,
-      0,
-      0,
-      0,
-      0,
-
-      0,
-      0,
-      "1a",
-      0,
-      0
-    ];
+    for (let i = 0; i < 50; i++) {
+      // black 1 => 20
+      // white 31 => 50
+      if (i >= 0 && i <= 19) grid.push(1);
+      else if (i >= 30 && i <= 49) grid.push(2);
+      else grid.push(0);
+    }
 
     return grid;
   }
