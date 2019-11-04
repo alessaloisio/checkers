@@ -1,6 +1,7 @@
 import openSocket from "socket.io-client";
 import jwt from "jsonwebtoken";
 
+console.log(window.location);
 const socket = openSocket(
   window.location.protocol + "://" + window.location.hostname + ":5005"
 );
