@@ -1,7 +1,7 @@
 import openSocket from "socket.io-client";
 import jwt from "jsonwebtoken";
 
-const socket = openSocket();
+const socket = openSocket("http://127.0.0.1:5005");
 console.log(socket);
 
 /**
