@@ -11,6 +11,7 @@ let players = [];
 let games = [];
 
 io.on("connection", client => {
+  console.log("new client", client.id);
   const self = {
     io,
     client,

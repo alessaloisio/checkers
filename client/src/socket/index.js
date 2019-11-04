@@ -1,7 +1,7 @@
 import openSocket from "socket.io-client";
 import jwt from "jsonwebtoken";
 
-const socket = openSocket("http://localhost:5005");
+const socket = openSocket();
 
 /**
  * When a client open a tab, server generate a new User()
