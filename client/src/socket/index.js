@@ -2,6 +2,7 @@ import openSocket from "socket.io-client";
 import jwt from "jsonwebtoken";
 
 const socket = openSocket();
+console.log(socket);
 
 /**
  * When a client open a tab, server generate a new User()
