@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 const uri = window.location.protocol + "//" + window.location.hostname;
 const options = {};
 
-// if (window.location.protocol === "https:") options.secure = true;
+if (window.location.protocol === "https:") options.secure = true;
 
 console.log(uri);
 console.log(options);
