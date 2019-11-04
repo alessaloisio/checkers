@@ -1,16 +1,19 @@
 import openSocket from "socket.io-client";
 import jwt from "jsonwebtoken";
 
-const uri =
-  window.location.protocol + "//" + window.location.hostname + ":5005";
-const options = {};
+// const uri =
+//   window.location.protocol + "//" + window.location.hostname + ":5005";
 
-if (window.location.protocol === "https:") options.secure = true;
+// const uri = "https://cherckers-back.herokuapp.com:39967";
+// const options = {};
 
-console.log(uri);
-console.log(options);
+// if (window.location.protocol === "https:") options.secure = true;
 
-const socket = openSocket(uri, options);
+// console.log(uri);
+// console.log(options);
+
+// const socket = openSocket(uri, options);
+const socket = openSocket();
 
 // window.location.protocol + "://" + window.location.hostname
 console.log(socket);
