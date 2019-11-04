@@ -35,7 +35,8 @@
         cursor: pointer;
 
         &.active {
-          border: 3px solid #93ddfd;
+          box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.8) inset;
+          background-color: #3998c1;
         }
 
         .black,
