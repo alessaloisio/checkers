@@ -2,9 +2,17 @@ import openSocket from "socket.io-client";
 import jwt from "jsonwebtoken";
 
 console.log(window.location);
-const socket = openSocket(
-  window.location.protocol + "://" + window.location.hostname + ":5005"
-);
+
+const uri =
+  window.location.protocol + "://" + window.location.hostname + ":5005";
+const options = {};
+
+if (window.location.protocol === "https") options.secure = true;
+
+console.log(uri);
+console.log(options);
+
+const socket = openSocket(uri, options);
 
 // window.location.protocol + "://" + window.location.hostname
 console.log(socket);
