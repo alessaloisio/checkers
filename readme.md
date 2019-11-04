@@ -12,4 +12,5 @@ Team challenge : *solo*
 * Front-End: React.js
 * Back-End: Node.js, Socket.io
 
-## Objectifves
+## Objectives
+Objectives were to create a multiplayer checker game with React.js as a client. To
