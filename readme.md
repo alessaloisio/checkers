@@ -6,6 +6,8 @@ Duration: *1 week*
 Deployment strategy: *[Heroku](https://checkersio.herokuapp.com/)*  
 Team challenge : *solo*
 
+![Screenshot](screenshot.png)
+
 ## What I use :
 * Front-End: React.js
 * Back-End: Node.js, Socket.io
