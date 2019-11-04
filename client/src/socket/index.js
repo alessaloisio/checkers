@@ -1,22 +1,7 @@
 import openSocket from "socket.io-client";
 import jwt from "jsonwebtoken";
 
-// const uri =
-//   window.location.protocol + "//" + window.location.hostname + ":5005";
-
-// const uri = "https://cherckers-back.herokuapp.com:39967";
-// const options = {};
-
-// if (window.location.protocol === "https:") options.secure = true;
-
-// console.log(uri);
-// console.log(options);
-
-// const socket = openSocket(uri, options);
 const socket = openSocket();
-
-// window.location.protocol + "://" + window.location.hostname
-console.log(socket);
 
 /**
  * When a client open a tab, server generate a new User()

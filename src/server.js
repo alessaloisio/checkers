@@ -1,20 +1,25 @@
 import http from "http";
 import express from "express";
 import socket from "socket.io";
+import path from "path";
 
 import Player from "./models/Player";
 import RoomManager from "./models/RoomManager";
 import SelectionLogic from "./models/Game/SelectionLogic";
 import EndGame from "./models/Game/EndGame";
 
-const port = 5005;
+const PORT = process.env.PORT || 3000;
+const STATIC_DIR = path.join(__dirname, "../", "client", "build");
+
 const app = express();
-app.set("port", port);
-const server = http.createServer(app);
+const server = http.Server(app);
 const io = socket(server);
 
 let players = [];
 let games = [];
+
+app.use(express.static(STATIC_DIR));
+server.listen(PORT, () => console.log(`Listening on ${PORT}`));
 
 io.on("connection", client => {
   console.log("new client", client.id);
@@ -102,13 +107,4 @@ io.on("connection", client => {
     delete io.of("/").adapter.rooms[client.id];
     // console.log(io.of("/").adapter.rooms);
   });
-});
-
-// START SERVER
-server.listen(port);
-server.on("error", () => {
-  console.log("Error with the server");
-});
-server.on("listening", () => {
-  console.log(`Socket.io listening on port ${port}`);
 });
